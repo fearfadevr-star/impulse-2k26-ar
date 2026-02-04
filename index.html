@@ -431,7 +431,7 @@
     shader="flat">
   </a-plane>
   
-  <!-- MASSIVE PARTICLE SYSTEM - Golden Particles (20 particles) -->
+  <!-- MASSIVE PARTICLE SYSTEM - Golden Particles (reduced for performance) -->
   <a-entity id="golden-particles">
     <a-sphere position="-4.5 3.8 -9" radius="0.09" color="#ffd700" opacity="0.8"
               animation="property: position; to: -4.5 1.2 -9; dir: alternate; dur: 3800; loop: true; easing: easeInOutQuad"></a-sphere>
@@ -443,19 +443,9 @@
               animation="property: position; to: 3.5 1.5 -8.8; dir: alternate; dur: 3900; loop: true; easing: easeInOutQuad"></a-sphere>
     <a-sphere position="-4.8 1.8 -8.2" radius="0.05" color="#ffd700" opacity="0.85"
               animation="property: position; to: -4.8 3.5 -8.2; dir: alternate; dur: 4500; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="4.5 2.8 -8.6" radius="0.07" color="#ffbb00" opacity="0.8"
-              animation="property: position; to: 4.5 1.3 -8.6; dir: alternate; dur: 4000; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-5.2 3.5 -9.2" radius="0.06" color="#ffd700" opacity="0.7"
-              animation="property: position; to: -5.2 1.8 -9.2; dir: alternate; dur: 3700; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="5.0 2.2 -9.0" radius="0.08" color="#ffcc00" opacity="0.85"
-              animation="property: position; to: 5.0 3.9 -9.0; dir: alternate; dur: 4100; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-3.2 1.2 -8.0" radius="0.05" color="#ffd700" opacity="0.75"
-              animation="property: position; to: -3.2 3.6 -8.0; dir: alternate; dur: 3600; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="3.8 3.7 -8.3" radius="0.07" color="#ffaa00" opacity="0.8"
-              animation="property: position; to: 3.8 1.4 -8.3; dir: alternate; dur: 4300; loop: true; easing: easeInOutQuad"></a-sphere>
   </a-entity>
   
-  <!-- Cyan/Blue Particles (20 particles) -->
+  <!-- Cyan/Blue Particles (reduced for performance) -->
   <a-entity id="cyan-particles">
     <a-sphere position="4.0 3.9 -8.9" radius="0.08" color="#00eaff" opacity="0.8"
               animation="property: position; to: 4.0 1.1 -8.9; dir: alternate; dur: 3700; loop: true; easing: easeInOutQuad"></a-sphere>
@@ -467,16 +457,6 @@
               animation="property: position; to: -4.7 1.6 -8.7; dir: alternate; dur: 4400; loop: true; easing: easeInOutQuad"></a-sphere>
     <a-sphere position="4.6 1.7 -8.1" radius="0.08" color="#00bbff" opacity="0.8"
               animation="property: position; to: 4.6 3.4 -8.1; dir: alternate; dur: 4200; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-5.1 2.6 -9.3" radius="0.06" color="#00d4ff" opacity="0.7"
-              animation="property: position; to: -5.1 1.2 -9.3; dir: alternate; dur: 3800; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="5.3 3.1 -8.5" radius="0.07" color="#00eaff" opacity="0.85"
-              animation="property: position; to: 5.3 1.5 -8.5; dir: alternate; dur: 4000; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-3.6 1.9 -8.2" radius="0.05" color="#00ccff" opacity="0.75"
-              animation="property: position; to: -3.6 3.5 -8.2; dir: alternate; dur: 3600; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="3.9 2.7 -9.4" radius="0.08" color="#00d4ff" opacity="0.8"
-              animation="property: position; to: 3.9 1.3 -9.4; dir: alternate; dur: 4300; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-4.4 3.6 -9.1" radius="0.06" color="#00eaff" opacity="0.7"
-              animation="property: position; to: -4.4 1.8 -9.1; dir: alternate; dur: 3500; loop: true; easing: easeInOutQuad"></a-sphere>
   </a-entity>
   
   <!-- Purple/Pink Particles (10 particles) -->
@@ -778,7 +758,7 @@
     letter-spacing="4">
   </a-text>
   
-  <!-- MASSIVE rotating torus collection (12 torus shapes) -->
+  <!-- MASSIVE rotating torus collection (reduced for performance) -->
   <a-torus
     position="-4.0 2.9 -8.6"
     radius="0.22"
@@ -815,44 +795,7 @@
     animation="property: rotation; to: 0 -360 -360; loop: true; dur: 9000; easing: linear">
   </a-torus>
   
-  <!-- Additional smaller torus shapes -->
-  <a-torus
-    position="-3.5 3.5 -8.8"
-    radius="0.15"
-    radius-tubular="0.025"
-    color="#ff00ff"
-    opacity="0.7"
-    animation="property: rotation; to: 360 0 360; loop: true; dur: 8000; easing: linear">
-  </a-torus>
-  
-  <a-torus
-    position="3.5 3.5 -8.8"
-    radius="0.15"
-    radius-tubular="0.025"
-    color="#00ffaa"
-    opacity="0.7"
-    animation="property: rotation; to: -360 0 -360; loop: true; dur: 8000; easing: linear">
-  </a-torus>
-  
-  <a-torus
-    position="-3.5 -1.6 -8.8"
-    radius="0.15"
-    radius-tubular="0.025"
-    color="#00ffaa"
-    opacity="0.7"
-    animation="property: rotation; to: 360 360 0; loop: true; dur: 7500; easing: linear">
-  </a-torus>
-  
-  <a-torus
-    position="3.5 -1.6 -8.8"
-    radius="0.15"
-    radius-tubular="0.025"
-    color="#ff00ff"
-    opacity="0.7"
-    animation="property: rotation; to: -360 -360 0; loop: true; dur: 7500; easing: linear">
-  </a-torus>
-  
-  <!-- Orbiting stars system (8 stars in multiple orbits) -->
+  <!-- Orbiting stars system (reduced for performance) -->
   <a-entity id="orbit1" position="0 2.9 -8"
             animation="property: rotation; to: 0 0 360; loop: true; dur: 12000; easing: linear">
     <a-octahedron position="3.2 0 0" radius="0.11" color="#ffffff" opacity="0.9"></a-octahedron>
@@ -866,22 +809,6 @@
   <a-entity id="orbit3" position="0 2.9 -8"
             animation="property: rotation; to: 0 0 360; loop: true; dur: 18000; easing: linear">
     <a-octahedron position="3.8 0 0" radius="0.08" color="#00eaff" opacity="0.8"></a-octahedron>
-  </a-entity>
-  
-  <a-entity id="orbit4" position="0 2.9 -8"
-            animation="property: rotation; to: 0 0 -360; loop: true; dur: 20000; easing: linear">
-    <a-octahedron position="4.1 0 0" radius="0.07" color="#ff00ff" opacity="0.7"></a-octahedron>
-  </a-entity>
-  
-  <!-- Double orbit system -->
-  <a-entity id="orbit5" position="0 0.8 -8"
-            animation="property: rotation; to: 0 0 360; loop: true; dur: 14000; easing: linear">
-    <a-octahedron position="4.5 0 0" radius="0.09" color="#ffaa00" opacity="0.8"></a-octahedron>
-  </a-entity>
-  
-  <a-entity id="orbit6" position="0 0.8 -8"
-            animation="property: rotation; to: 0 0 -360; loop: true; dur: 16000; easing: linear">
-    <a-octahedron position="4.2 0 0" radius="0.08" color="#00ffaa" opacity="0.8"></a-octahedron>
   </a-entity>
   
   <!-- Tetrahedrons floating (6 shapes) -->
@@ -961,7 +888,7 @@
   ];
   
   let currentDay = 0;
-  let currentZoom = 0; // Zoom level from -5 to 5
+  let currentZoom = -3; // Start zoomed out for Android, Range: -5 to 5
   
   const dayTitle = document.getElementById("dayTitle");
   const dayDate = document.getElementById("dayDate");
@@ -971,6 +898,12 @@
   const line4 = document.getElementById("line4");
   const dayLabel = document.getElementById("dayLabel");
   const dayIndicator = document.getElementById("dayIndicator");
+  
+  // Detect if device is likely Android/low-end
+  const isAndroid = /android/i.test(navigator.userAgent);
+  if (isAndroid) {
+    currentZoom = -4; // Start more zoomed out on Android
+  }
   
   function updateDay() {
     const day = days[currentDay];
@@ -1049,6 +982,11 @@
   // Initialize
   updateDay();
   
+  // Apply initial zoom setting
+  setTimeout(() => {
+    applyZoom();
+  }, 100);
+  
   // Hide loading screen when AR is ready
   window.addEventListener('load', () => {
     setTimeout(() => {
@@ -1083,7 +1021,7 @@
     if (touchEndX > touchStartX + 50) prevDay();
   }
   
-  // Pinch-to-zoom support
+  // Pinch-to-zoom support (FIXED: pinch in = zoom in, pinch out = zoom out)
   let initialDistance = 0;
   let currentDistance = 0;
   
@@ -1101,10 +1039,12 @@
       const delta = currentDistance - initialDistance;
       
       if (Math.abs(delta) > 20) { // Threshold to prevent jitter
+        // FIXED: When distance increases (pinch out), zoom out
+        // When distance decreases (pinch in), zoom in
         if (delta > 0) {
-          zoomIn();
+          zoomOut(); // Pinch out = zoom out
         } else {
-          zoomOut();
+          zoomIn(); // Pinch in = zoom in
         }
         initialDistance = currentDistance;
       }
