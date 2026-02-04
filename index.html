@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>IMPULSE 2k26 | AR Invitation</title>
   <!-- A-Frame & AR.js -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
@@ -14,11 +14,16 @@
       padding: 0;
       box-sizing: border-box;
     }
+    
     body {
       margin: 0;
       overflow: hidden;
       background: linear-gradient(135deg, #000000 0%, #0f0f23 50%, #1a0a2e 100%);
       font-family: 'Rajdhani', sans-serif;
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      touch-action: none;
     }
     
     /* Animated background with stars */
@@ -56,7 +61,7 @@
       left: 0;
       width: 100%;
       background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
-      padding: 25px 20px;
+      padding: 20px 15px;
       z-index: 10;
       text-align: center;
       border-bottom: 1px solid rgba(255, 215, 0, 0.3);
@@ -64,9 +69,9 @@
     
     .logo-text {
       font-family: 'Audiowide', cursive;
-      font-size: 16px;
+      font-size: clamp(14px, 4vw, 18px);
       color: #ffd700;
-      letter-spacing: 5px;
+      letter-spacing: 3px;
       text-shadow: 
         0 0 10px rgba(255, 215, 0, 0.8),
         0 0 20px rgba(255, 215, 0, 0.6),
@@ -89,40 +94,86 @@
       }
     }
     
+    /* Zoom controls */
+    .zoom-controls {
+      position: fixed;
+      top: 80px;
+      right: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 15;
+    }
+    
+    .zoom-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0, 234, 255, 0.3), rgba(138, 43, 226, 0.3));
+      border: 2px solid rgba(0, 234, 255, 0.6);
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+      box-shadow: 0 0 15px rgba(0, 234, 255, 0.4);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    
+    .zoom-btn:active {
+      transform: scale(0.9);
+      background: linear-gradient(135deg, rgba(0, 234, 255, 0.5), rgba(138, 43, 226, 0.5));
+    }
+    
+    .zoom-reset {
+      font-size: 14px;
+      padding: 8px;
+      height: auto;
+      border-radius: 25px;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1px;
+    }
+    
     /* Bottom controls */
     .controls {
       position: fixed;
-      bottom: 30px;
+      bottom: 20px;
       left: 0;
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
+      gap: 15px;
       z-index: 10;
+      padding: 0 15px;
     }
     
     .nav-buttons {
       display: flex;
-      gap: 20px;
+      gap: 15px;
       align-items: center;
     }
     
     .day-label {
       font-family: 'Russo One', sans-serif;
       color: #ffffff;
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px);
       letter-spacing: 2px;
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-      min-width: 100px;
+      min-width: 90px;
       text-align: center;
     }
     
     .btn {
-      padding: 16px 32px;
+      padding: 14px 28px;
       border-radius: 50px;
       font-weight: 700;
-      font-size: 16px;
+      font-size: clamp(14px, 3vw, 16px);
       border: none;
       cursor: pointer;
       text-decoration: none;
@@ -134,6 +185,8 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       position: relative;
+      user-select: none;
+      -webkit-user-select: none;
     }
     
     .btn-prev, .btn-next {
@@ -141,11 +194,11 @@
       color: #ffffff;
       backdrop-filter: blur(15px);
       border: 2px solid rgba(0, 234, 255, 0.5);
-      width: 65px;
-      height: 65px;
+      width: 60px;
+      height: 60px;
       padding: 0;
       justify-content: center;
-      font-size: 22px;
+      font-size: 20px;
       box-shadow: 
         0 0 20px rgba(0, 234, 255, 0.3),
         inset 0 0 20px rgba(0, 234, 255, 0.1);
@@ -168,8 +221,8 @@
       background: linear-gradient(135deg, #ffcc00 0%, #ff6b00 50%, #ff0080 100%);
       color: #000;
       font-family: 'Russo One', sans-serif;
-      font-size: 18px;
-      padding: 18px 40px;
+      font-size: clamp(16px, 4vw, 18px);
+      padding: 16px 35px;
       box-shadow: 
         0 10px 40px rgba(255, 204, 0, 0.5),
         0 0 30px rgba(255, 107, 0, 0.3);
@@ -202,13 +255,13 @@
     /* Day indicator */
     .day-indicator {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 10px;
     }
     
     .dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.2);
       border: 2px solid rgba(255, 255, 255, 0.3);
@@ -288,16 +341,67 @@
     .loading-text {
       margin-top: 25px;
       color: #ffffff;
-      font-size: 18px;
+      font-size: clamp(14px, 4vw, 18px);
       letter-spacing: 4px;
       font-family: 'Orbitron', sans-serif;
       text-transform: uppercase;
       animation: fadeInOut 2s ease-in-out infinite;
+      text-align: center;
+      padding: 0 20px;
     }
     
     @keyframes fadeInOut {
       0%, 100% { opacity: 0.5; }
       50% { opacity: 1; }
+    }
+    
+    /* Compatibility message */
+    .compatibility-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      z-index: 1001;
+      max-width: 90%;
+      border: 2px solid #ffd700;
+      display: none;
+    }
+    
+    .compatibility-message.show {
+      display: block;
+    }
+    
+    /* Hide A-Frame default loading screen and debug UI */
+    .a-loader-title,
+    .a-canvas .a-loader-title,
+    .a-enter-vr,
+    .a-enter-ar,
+    #arjsDebugUIContainer,
+    [id^="arjs"],
+    .arjs-loader {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    
+    /* Ensure our loading screen is visible */
+    .loading {
+      display: flex !important;
+    }
+    
+    /* AR Scene container */
+    a-scene {
+      width: 100vw !important;
+      height: 100vh !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
     }
   </style>
 </head>
@@ -308,12 +412,28 @@
 <!-- Loading screen -->
 <div class="loading" id="loading">
   <div class="spinner"></div>
-  <div class="loading-text">Initializing AR...</div>
+  <div class="loading-text">Initializing AR Experience...</div>
+</div>
+
+<!-- Compatibility message (hidden by default) -->
+<div class="compatibility-message" id="compatibilityMessage">
+  <h3>⚠️ AR Compatibility Check</h3>
+  <p id="compatibilityText">Checking device compatibility...</p>
+  <button onclick="retryAR()" style="margin-top: 15px; padding: 10px 20px; background: #ffd700; border: none; border-radius: 25px; font-weight: bold; cursor: pointer;">
+    Retry AR
+  </button>
 </div>
 
 <!-- Top banner -->
 <div class="top-banner">
   <div class="logo-text">⚡ IMPULSE 2K26 ⚡</div>
+</div>
+
+<!-- Zoom Controls -->
+<div class="zoom-controls">
+  <button class="zoom-btn" onclick="zoomIn()" aria-label="Zoom in">+</button>
+  <button class="zoom-btn zoom-reset" onclick="resetZoom()" aria-label="Reset zoom">RESET</button>
+  <button class="zoom-btn" onclick="zoomOut()" aria-label="Zoom out">−</button>
 </div>
 
 <!-- CONTROLS -->
@@ -338,11 +458,29 @@
   </a>
 </div>
 
+<!-- AR Scene -->
 <a-scene 
   embedded 
-  arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+  arjs="sourceType: webcam; 
+        debugUIEnabled: false; 
+        detectionMode: mono_and_matrix; 
+        matrixCodeType: 3x3;
+        cameraParametersUrl: https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/data/camera_para.dat;
+        sourceWidth: 1280;
+        sourceHeight: 720;
+        displayWidth: 1280;
+        displayHeight: 720;"
   vr-mode-ui="enabled: false"
-  renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true;">
+  loading-screen="enabled: false"
+  renderer="antialias: true; 
+           colorManagement: true; 
+           physicallyCorrectLights: true;
+           precision: medium;
+           logarithmicDepthBuffer: false;">
+  
+  <!-- Camera with zoom control -->
+  <a-camera id="arCamera" position="0 0 0" fov="60" wasd-controls-enabled="false" look-controls-enabled="true">
+  </a-camera>
   
   <!-- Enhanced lighting setup with multiple colored lights -->
   <a-entity light="type: ambient; color: #666; intensity: 0.7"></a-entity>
@@ -351,502 +489,181 @@
             animation="property: intensity; from: 0.4; to: 0.8; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"></a-entity>
   <a-entity light="type: point; color: #00eaff; intensity: 0.6" position="0 -0.5 -6"
             animation="property: intensity; from: 0.4; to: 0.8; dir: alternate; dur: 2500; loop: true; easing: easeInOutSine"></a-entity>
-  <a-entity light="type: point; color: #ff00ff; intensity: 0.4" position="-3 1 -7"
-            animation="property: position; to: 3 1 -7; dir: alternate; dur: 4000; loop: true; easing: easeInOutQuad"></a-entity>
   
-  <!-- Multiple background layers with depth -->
-  <a-plane 
-    position="0 0.8 -10" 
-    rotation="0 0 0" 
-    width="16" 
-    height="10" 
-    color="#050510" 
-    opacity="0.5"
-    shader="flat">
-  </a-plane>
-  
-  <a-plane 
-    position="0 0.8 -9.5" 
-    rotation="0 0 0" 
-    width="14" 
-    height="9" 
-    color="#0a0a1a" 
-    opacity="0.4"
-    shader="flat">
-  </a-plane>
-  
-  <!-- MASSIVE PARTICLE SYSTEM - Golden Particles (20 particles) -->
-  <a-entity id="golden-particles">
-    <a-sphere position="-4.5 3.8 -9" radius="0.09" color="#ffd700" opacity="0.8"
-              animation="property: position; to: -4.5 1.2 -9; dir: alternate; dur: 3800; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="4.2 1.5 -9" radius="0.07" color="#ffd700" opacity="0.7"
-              animation="property: position; to: 4.2 3.5 -9; dir: alternate; dur: 3500; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-3.8 2.5 -8.5" radius="0.06" color="#ffcc00" opacity="0.9"
-              animation="property: position; to: -3.8 3.8 -8.5; dir: alternate; dur: 4200; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="3.5 3.2 -8.8" radius="0.08" color="#ffaa00" opacity="0.75"
-              animation="property: position; to: 3.5 1.5 -8.8; dir: alternate; dur: 3900; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-4.8 1.8 -8.2" radius="0.05" color="#ffd700" opacity="0.85"
-              animation="property: position; to: -4.8 3.5 -8.2; dir: alternate; dur: 4500; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="4.5 2.8 -8.6" radius="0.07" color="#ffbb00" opacity="0.8"
-              animation="property: position; to: 4.5 1.3 -8.6; dir: alternate; dur: 4000; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-5.2 3.5 -9.2" radius="0.06" color="#ffd700" opacity="0.7"
-              animation="property: position; to: -5.2 1.8 -9.2; dir: alternate; dur: 3700; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="5.0 2.2 -9.0" radius="0.08" color="#ffcc00" opacity="0.85"
-              animation="property: position; to: 5.0 3.9 -9.0; dir: alternate; dur: 4100; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-3.2 1.2 -8.0" radius="0.05" color="#ffd700" opacity="0.75"
-              animation="property: position; to: -3.2 3.6 -8.0; dir: alternate; dur: 3600; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="3.8 3.7 -8.3" radius="0.07" color="#ffaa00" opacity="0.8"
-              animation="property: position; to: 3.8 1.4 -8.3; dir: alternate; dur: 4300; loop: true; easing: easeInOutQuad"></a-sphere>
-  </a-entity>
-  
-  <!-- Cyan/Blue Particles (20 particles) -->
-  <a-entity id="cyan-particles">
-    <a-sphere position="4.0 3.9 -8.9" radius="0.08" color="#00eaff" opacity="0.8"
-              animation="property: position; to: 4.0 1.1 -8.9; dir: alternate; dur: 3700; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-4.3 1.4 -8.4" radius="0.06" color="#00d4ff" opacity="0.7"
-              animation="property: position; to: -4.3 3.7 -8.4; dir: alternate; dur: 4100; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="3.3 2.3 -9.1" radius="0.07" color="#00ccff" opacity="0.85"
-              animation="property: position; to: 3.3 3.8 -9.1; dir: alternate; dur: 3900; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-4.7 3.3 -8.7" radius="0.05" color="#00eaff" opacity="0.75"
-              animation="property: position; to: -4.7 1.6 -8.7; dir: alternate; dur: 4400; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="4.6 1.7 -8.1" radius="0.08" color="#00bbff" opacity="0.8"
-              animation="property: position; to: 4.6 3.4 -8.1; dir: alternate; dur: 4200; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-5.1 2.6 -9.3" radius="0.06" color="#00d4ff" opacity="0.7"
-              animation="property: position; to: -5.1 1.2 -9.3; dir: alternate; dur: 3800; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="5.3 3.1 -8.5" radius="0.07" color="#00eaff" opacity="0.85"
-              animation="property: position; to: 5.3 1.5 -8.5; dir: alternate; dur: 4000; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-3.6 1.9 -8.2" radius="0.05" color="#00ccff" opacity="0.75"
-              animation="property: position; to: -3.6 3.5 -8.2; dir: alternate; dur: 3600; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="3.9 2.7 -9.4" radius="0.08" color="#00d4ff" opacity="0.8"
-              animation="property: position; to: 3.9 1.3 -9.4; dir: alternate; dur: 4300; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-4.4 3.6 -9.1" radius="0.06" color="#00eaff" opacity="0.7"
-              animation="property: position; to: -4.4 1.8 -9.1; dir: alternate; dur: 3500; loop: true; easing: easeInOutQuad"></a-sphere>
-  </a-entity>
-  
-  <!-- Purple/Pink Particles (10 particles) -->
-  <a-entity id="purple-particles">
-    <a-sphere position="-2.5 3.4 -8.6" radius="0.06" color="#ff00ff" opacity="0.7"
-              animation="property: position; to: -2.5 1.8 -8.6; dir: alternate; dur: 4100; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="2.8 2.1 -8.9" radius="0.05" color="#cc00ff" opacity="0.75"
-              animation="property: position; to: 2.8 3.6 -8.9; dir: alternate; dur: 3800; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-2.2 1.5 -9.2" radius="0.07" color="#ff66ff" opacity="0.8"
-              animation="property: position; to: -2.2 3.3 -9.2; dir: alternate; dur: 4200; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="2.4 3.7 -8.4" radius="0.06" color="#ee00ff" opacity="0.7"
-              animation="property: position; to: 2.4 1.4 -8.4; dir: alternate; dur: 3900; loop: true; easing: easeInOutQuad"></a-sphere>
-    <a-sphere position="-2.9 2.9 -8.8" radius="0.05" color="#ff00dd" opacity="0.75"
-              animation="property: position; to: -2.9 1.6 -8.8; dir: alternate; dur: 4000; loop: true; easing: easeInOutQuad"></a-sphere>
-  </a-entity>
-  
-  <!-- Decorative MEGA corner frames with glow -->
-  <a-entity id="corners">
-    <!-- Top left - enhanced -->
-    <a-box position="-5.2 3.7 -8.8" width="1.0" height="0.06" depth="0.06" color="#ffd700" opacity="0.9"></a-box>
-    <a-box position="-5.6 3.2 -8.8" width="0.06" height="1.0" depth="0.06" color="#ffd700" opacity="0.9"></a-box>
-    <a-ring position="-5.2 3.7 -8.75" radius-inner="0.3" radius-outer="0.35" color="#ffd700" opacity="0.5"
-            animation="property: rotation; to: 0 0 360; loop: true; dur: 8000; easing: linear"></a-ring>
+  <!-- Main AR content container -->
+  <a-entity id="arContent" position="0 0 -5">
     
-    <!-- Top right - enhanced -->
-    <a-box position="5.2 3.7 -8.8" width="1.0" height="0.06" depth="0.06" color="#00eaff" opacity="0.9"></a-box>
-    <a-box position="5.6 3.2 -8.8" width="0.06" height="1.0" depth="0.06" color="#00eaff" opacity="0.9"></a-box>
-    <a-ring position="5.2 3.7 -8.75" radius-inner="0.3" radius-outer="0.35" color="#00eaff" opacity="0.5"
-            animation="property: rotation; to: 0 0 -360; loop: true; dur: 8000; easing: linear"></a-ring>
+    <!-- Background layers with depth -->
+    <a-plane 
+      position="0 0.8 0" 
+      rotation="0 0 0" 
+      width="16" 
+      height="10" 
+      color="#050510" 
+      opacity="0.5"
+      shader="flat">
+    </a-plane>
     
-    <!-- Bottom left - enhanced -->
-    <a-box position="-5.2 -1.9 -8.8" width="1.0" height="0.06" depth="0.06" color="#00eaff" opacity="0.9"></a-box>
-    <a-box position="-5.6 -1.4 -8.8" width="0.06" height="1.0" depth="0.06" color="#00eaff" opacity="0.9"></a-box>
-    <a-ring position="-5.2 -1.9 -8.75" radius-inner="0.3" radius-outer="0.35" color="#00eaff" opacity="0.5"
-            animation="property: rotation; to: 0 0 360; loop: true; dur: 8000; easing: linear"></a-ring>
+    <!-- MAIN TITLE -->
+    <a-text
+      value="IMPULSE"
+      position="0 3.2 0"
+      align="center"
+      color="#ffffff"
+      scale="3.5 3.5 3.5"
+      letter-spacing="8"
+      font="roboto"
+      shader="flat">
+    </a-text>
     
-    <!-- Bottom right - enhanced -->
-    <a-box position="5.2 -1.9 -8.8" width="1.0" height="0.06" depth="0.06" color="#ffd700" opacity="0.9"></a-box>
-    <a-box position="5.6 -1.4 -8.8" width="0.06" height="1.0" depth="0.06" color="#ffd700" opacity="0.9"></a-box>
-    <a-ring position="5.2 -1.9 -8.75" radius-inner="0.3" radius-outer="0.35" color="#ffd700" opacity="0.5"
-            animation="property: rotation; to: 0 0 -360; loop: true; dur: 8000; easing: linear"></a-ring>
+    <a-text
+      value="2K26"
+      position="0 2.6 0"
+      align="center"
+      color="#ffd700"
+      scale="2.5 2.5 2.5"
+      letter-spacing="15"
+      font="roboto"
+      shader="flat">
+    </a-text>
+    
+    <!-- Animated decorative rings around title -->
+    <a-ring
+      position="0 2.9 0"
+      radius-inner="2.3"
+      radius-outer="2.35"
+      color="#ffd700"
+      opacity="0.5"
+      animation="property: rotation; to: 0 0 360; loop: true; dur: 18000; easing: linear">
+    </a-ring>
+    
+    <!-- DATE -->
+    <a-text
+      value="10 - 14 FEBRUARY 2026"
+      position="0 1.9 0"
+      align="center"
+      color="#00eaff"
+      scale="1.1 1.1 1.1"
+      letter-spacing="4">
+    </a-text>
+    
+    <!-- TAGLINE -->
+    <a-text
+      value="SPORTS | CULTURE | CELEBRATION"
+      position="0 1.6 0"
+      align="center"
+      color="#dddddd"
+      scale="0.9 0.9 0.9"
+      letter-spacing="2">
+    </a-text>
+    
+    <!-- Middle separator -->
+    <a-plane
+      position="0 1.35 0"
+      width="6.5"
+      height="0.025"
+      color="#ffd700"
+      opacity="0.6">
+    </a-plane>
+    
+    <!-- DAY TITLE -->
+    <a-text
+      id="dayTitle"
+      position="0 1.0 0"
+      align="center"
+      color="#ffd700"
+      scale="1.3 1.3 1.3"
+      letter-spacing="3">
+    </a-text>
+    
+    <!-- DAY DATE -->
+    <a-text
+      id="dayDate"
+      position="0 0.7 0"
+      align="center"
+      color="#ffffff"
+      scale="0.95 0.95 0.95"
+      letter-spacing="2">
+    </a-text>
+    
+    <!-- DAY CONTENT - Line 1 -->
+    <a-text
+      id="line1"
+      position="0 0.35 0"
+      align="center"
+      color="#ffffff"
+      scale="1.0 1.0 1.0"
+      letter-spacing="2">
+    </a-text>
+    
+    <!-- DAY CONTENT - Line 2 -->
+    <a-text
+      id="line2"
+      position="0 0.05 0"
+      align="center"
+      color="#ffffff"
+      scale="1.0 1.0 1.0"
+      letter-spacing="2">
+    </a-text>
+    
+    <!-- DAY CONTENT - Line 3 -->
+    <a-text
+      id="line3"
+      position="0 -0.25 0"
+      align="center"
+      color="#ffffff"
+      scale="1.0 1.0 1.0"
+      letter-spacing="2">
+    </a-text>
+    
+    <!-- DAY CONTENT - Line 4 -->
+    <a-text
+      id="line4"
+      position="0 -0.55 0"
+      align="center"
+      color="#ffffff"
+      scale="1.0 1.0 1.0"
+      letter-spacing="2">
+    </a-text>
+    
+    <!-- FOOTER -->
+    <a-text
+      value="LAST DATE TO REGISTER"
+      position="0 -1.1 0"
+      align="center"
+      color="#ff6b6b"
+      scale="1.0 1.0 1.0"
+      letter-spacing="3"
+      animation="property: opacity; from: 0.6; to: 1; dir: alternate; dur: 1000; loop: true; easing: easeInOutQuad">
+    </a-text>
+    
+    <a-text
+      value="6 FEBRUARY 2026"
+      position="0 -1.4 0"
+      align="center"
+      color="#00eaff"
+      scale="1.15 1.15 1.15"
+      letter-spacing="4">
+    </a-text>
+    
+    <!-- Simplified decorative elements for better performance -->
+    <a-sphere position="-4.5 3.8 0" radius="0.09" color="#ffd700" opacity="0.8"
+              animation="property: position; to: -4.5 1.2 0; dir: alternate; dur: 3800; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="4.2 1.5 0" radius="0.07" color="#ffd700" opacity="0.7"
+              animation="property: position; to: 4.2 3.5 0; dir: alternate; dur: 3500; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="-4.3 1.4 0" radius="0.06" color="#00d4ff" opacity="0.7"
+              animation="property: position; to: -4.3 3.7 0; dir: alternate; dur: 4100; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="4.0 3.9 0" radius="0.08" color="#00eaff" opacity="0.8"
+              animation="property: position; to: 4.0 1.1 0; dir: alternate; dur: 3700; loop: true; easing: easeInOutQuad"></a-sphere>
+    
   </a-entity>
   
-  <!-- MAIN TITLE - properly spaced -->
-  <a-text
-    value="IMPULSE"
-    position="0 3.2 -8"
-    align="center"
-    color="#ffffff"
-    scale="3.5 3.5 3.5"
-    letter-spacing="8"
-    font="roboto"
-    shader="flat">
-  </a-text>
-  
-  <a-text
-    value="2K26"
-    position="0 2.6 -8"
-    align="center"
-    color="#ffd700"
-    scale="2.5 2.5 2.5"
-    letter-spacing="15"
-    font="roboto"
-    shader="flat">
-  </a-text>
-  
-  <!-- Multiple animated decorative rings around title (5 rings) -->
-  <a-ring
-    position="0 2.9 -8.3"
-    radius-inner="2.3"
-    radius-outer="2.35"
-    color="#ffd700"
-    opacity="0.5"
-    animation="property: rotation; to: 0 0 360; loop: true; dur: 18000; easing: linear">
-  </a-ring>
-  
-  <a-ring
-    position="0 2.9 -8.25"
-    radius-inner="2.6"
-    radius-outer="2.65"
-    color="#00eaff"
-    opacity="0.5"
-    animation="property: rotation; to: 0 0 -360; loop: true; dur: 22000; easing: linear">
-  </a-ring>
-  
-  <a-ring
-    position="0 2.9 -8.28"
-    radius-inner="2.9"
-    radius-outer="2.95"
-    color="#ff00ff"
-    opacity="0.4"
-    animation="property: rotation; to: 0 0 360; loop: true; dur: 25000; easing: linear">
-  </a-ring>
-  
-  <a-ring
-    position="0 2.9 -8.32"
-    radius-inner="3.2"
-    radius-outer="3.25"
-    color="#00ffaa"
-    opacity="0.3"
-    animation="property: rotation; to: 0 0 -360; loop: true; dur: 28000; easing: linear">
-  </a-ring>
-  
-  <a-ring
-    position="0 2.9 -8.35"
-    radius-inner="3.5"
-    radius-outer="3.55"
-    color="#ffaa00"
-    opacity="0.3"
-    animation="property: rotation; to: 0 0 360; loop: true; dur: 30000; easing: linear">
-  </a-ring>
-  
-  <!-- Pulsing circles behind title -->
-  <a-circle position="0 2.9 -8.4" radius="2.0" color="#ffd700" opacity="0.1"
-            animation="property: scale; from: 0.9 0.9 0.9; to: 1.1 1.1 1.1; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"></a-circle>
-  <a-circle position="0 2.9 -8.45" radius="2.5" color="#00eaff" opacity="0.1"
-            animation="property: scale; from: 1.1 1.1 1.1; to: 0.9 0.9 0.9; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"></a-circle>
-  
-  <!-- Top decorative line with glow -->
-  <a-plane
-    position="0 2.2 -7.95"
-    width="5.5"
-    height="0.03"
-    color="#00eaff"
-    opacity="0.9">
-  </a-plane>
-  
-  <a-plane
-    position="0 2.2 -7.94"
-    width="5"
-    height="0.02"
-    color="#ffffff"
-    opacity="0.7">
-  </a-plane>
-  
-  <!-- Animated sparkles around the line -->
-  <a-octahedron position="-2.5 2.2 -7.9" radius="0.04" color="#ffd700" opacity="0.8"
-                animation="property: rotation; to: 360 360 360; loop: true; dur: 3000; easing: linear"></a-octahedron>
-  <a-octahedron position="2.5 2.2 -7.9" radius="0.04" color="#00eaff" opacity="0.8"
-                animation="property: rotation; to: -360 -360 -360; loop: true; dur: 3000; easing: linear"></a-octahedron>
-  
-  <!-- DATE -->
-  <a-text
-    value="10 - 14 FEBRUARY 2026"
-    position="0 1.9 -8"
-    align="center"
-    color="#00eaff"
-    scale="1.1 1.1 1.1"
-    letter-spacing="4">
-  </a-text>
-  
-  <!-- TAGLINE -->
-  <a-text
-    value="SPORTS | CULTURE | CELEBRATION"
-    position="0 1.6 -8"
-    align="center"
-    color="#dddddd"
-    scale="0.9 0.9 0.9"
-    letter-spacing="2">
-  </a-text>
-  
-  <!-- Middle separator with animated elements -->
-  <a-plane
-    position="0 1.35 -7.95"
-    width="6.5"
-    height="0.025"
-    color="#ffd700"
-    opacity="0.6">
-  </a-plane>
-  
-  <!-- Diamonds on separator -->
-  <a-octahedron position="-3 1.35 -7.9" radius="0.06" color="#ffd700" opacity="0.7"
-                animation="property: position; to: -3 1.5 -7.9; dir: alternate; dur: 1500; loop: true; easing: easeInOutQuad"></a-octahedron>
-  <a-octahedron position="0 1.35 -7.9" radius="0.06" color="#00eaff" opacity="0.7"
-                animation="property: position; to: 0 1.5 -7.9; dir: alternate; dur: 1500; loop: true; easing: easeInOutQuad"></a-octahedron>
-  <a-octahedron position="3 1.35 -7.9" radius="0.06" color="#ffd700" opacity="0.7"
-                animation="property: position; to: 3 1.5 -7.9; dir: alternate; dur: 1500; loop: true; easing: easeInOutQuad"></a-octahedron>
-  
-  <!-- DAY TITLE -->
-  <a-text
-    id="dayTitle"
-    position="0 1.0 -8"
-    align="center"
-    color="#ffd700"
-    scale="1.3 1.3 1.3"
-    letter-spacing="3">
-  </a-text>
-  
-  <!-- DAY DATE -->
-  <a-text
-    id="dayDate"
-    position="0 0.7 -8"
-    align="center"
-    color="#ffffff"
-    scale="0.95 0.95 0.95"
-    letter-spacing="2">
-  </a-text>
-  
-  <!-- DAY CONTENT - Line 1 -->
-  <a-text
-    id="line1"
-    position="0 0.35 -8"
-    align="center"
-    color="#ffffff"
-    scale="1.0 1.0 1.0"
-    letter-spacing="2">
-  </a-text>
-  
-  <!-- DAY CONTENT - Line 2 -->
-  <a-text
-    id="line2"
-    position="0 0.05 -8"
-    align="center"
-    color="#ffffff"
-    scale="1.0 1.0 1.0"
-    letter-spacing="2">
-  </a-text>
-  
-  <!-- DAY CONTENT - Line 3 -->
-  <a-text
-    id="line3"
-    position="0 -0.25 -8"
-    align="center"
-    color="#ffffff"
-    scale="1.0 1.0 1.0"
-    letter-spacing="2">
-  </a-text>
-  
-  <!-- DAY CONTENT - Line 4 -->
-  <a-text
-    id="line4"
-    position="0 -0.55 -8"
-    align="center"
-    color="#ffffff"
-    scale="1.0 1.0 1.0"
-    letter-spacing="2">
-  </a-text>
-  
-  <!-- Animated 3D cubes around content (8 cubes) -->
-  <a-box position="-4.8 0.5 -8.5" width="0.18" height="0.18" depth="0.18" color="#ffd700" opacity="0.8"
-         animation="property: rotation; to: 360 360 360; loop: true; dur: 7000; easing: linear"></a-box>
-  <a-box position="4.8 0.5 -8.5" width="0.18" height="0.18" depth="0.18" color="#00eaff" opacity="0.8"
-         animation="property: rotation; to: -360 -360 -360; loop: true; dur: 7000; easing: linear"></a-box>
-  <a-box position="-4.8 -0.2 -8.5" width="0.15" height="0.15" depth="0.15" color="#ff00ff" opacity="0.7"
-         animation="property: rotation; to: 360 -360 360; loop: true; dur: 8000; easing: linear"></a-box>
-  <a-box position="4.8 -0.2 -8.5" width="0.15" height="0.15" depth="0.15" color="#00ffaa" opacity="0.7"
-         animation="property: rotation; to: -360 360 -360; loop: true; dur: 8000; easing: linear"></a-box>
-  
-  <!-- Animated cylinders (6 cylinders) -->
-  <a-cylinder position="-5.3 1.2 -8.7" radius="0.08" height="0.3" color="#ffd700" opacity="0.7"
-              animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear"></a-cylinder>
-  <a-cylinder position="5.3 1.2 -8.7" radius="0.08" height="0.3" color="#00eaff" opacity="0.7"
-              animation="property: rotation; to: 0 -360 0; loop: true; dur: 5000; easing: linear"></a-cylinder>
-  <a-cylinder position="-5.3 -0.5 -8.7" radius="0.08" height="0.3" color="#00eaff" opacity="0.7"
-              animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear"></a-cylinder>
-  <a-cylinder position="5.3 -0.5 -8.7" radius="0.08" height="0.3" color="#ffd700" opacity="0.7"
-              animation="property: rotation; to: 0 -360 0; loop: true; dur: 5000; easing: linear"></a-cylinder>
-  
-  <!-- Bottom decorative line with glow -->
-  <a-plane
-    position="0 -0.85 -7.95"
-    width="7"
-    height="0.03"
-    color="#ff6b6b"
-    opacity="0.8">
-  </a-plane>
-  
-  <a-plane
-    position="0 -0.85 -7.94"
-    width="6.5"
-    height="0.02"
-    color="#ffffff"
-    opacity="0.6">
-  </a-plane>
-  
-  <!-- Animated sparkles on bottom line -->
-  <a-octahedron position="-3.2 -0.85 -7.9" radius="0.05" color="#ff6b6b" opacity="0.8"
-                animation="property: rotation; to: 360 360 360; loop: true; dur: 3500; easing: linear"></a-octahedron>
-  <a-octahedron position="3.2 -0.85 -7.9" radius="0.05" color="#ff6b6b" opacity="0.8"
-                animation="property: rotation; to: -360 -360 -360; loop: true; dur: 3500; easing: linear"></a-octahedron>
-  
-  <!-- FOOTER with urgency indicator -->
-  <a-text
-    value="LAST DATE TO REGISTER"
-    position="0 -1.1 -8"
-    align="center"
-    color="#ff6b6b"
-    scale="1.0 1.0 1.0"
-    letter-spacing="3"
-    animation="property: opacity; from: 0.6; to: 1; dir: alternate; dur: 1000; loop: true; easing: easeInOutQuad">
-  </a-text>
-  
-  <a-text
-    value="6 FEBRUARY 2026"
-    position="0 -1.4 -8"
-    align="center"
-    color="#00eaff"
-    scale="1.15 1.15 1.15"
-    letter-spacing="4">
-  </a-text>
-  
-  <!-- MASSIVE rotating torus collection (12 torus shapes) -->
-  <a-torus
-    position="-4.0 2.9 -8.6"
-    radius="0.22"
-    radius-tubular="0.035"
-    color="#ffcc00"
-    opacity="0.75"
-    animation="property: rotation; to: 360 360 0; loop: true; dur: 10000; easing: linear">
-  </a-torus>
-  
-  <a-torus
-    position="4.0 2.9 -8.6"
-    radius="0.22"
-    radius-tubular="0.035"
-    color="#00eaff"
-    opacity="0.75"
-    animation="property: rotation; to: -360 -360 0; loop: true; dur: 10000; easing: linear">
-  </a-torus>
-  
-  <a-torus
-    position="-4.0 -1.1 -8.6"
-    radius="0.20"
-    radius-tubular="0.035"
-    color="#00eaff"
-    opacity="0.75"
-    animation="property: rotation; to: 0 360 360; loop: true; dur: 9000; easing: linear">
-  </a-torus>
-  
-  <a-torus
-    position="4.0 -1.1 -8.6"
-    radius="0.20"
-    radius-tubular="0.035"
-    color="#ffcc00"
-    opacity="0.75"
-    animation="property: rotation; to: 0 -360 -360; loop: true; dur: 9000; easing: linear">
-  </a-torus>
-  
-  <!-- Additional smaller torus shapes -->
-  <a-torus
-    position="-3.5 3.5 -8.8"
-    radius="0.15"
-    radius-tubular="0.025"
-    color="#ff00ff"
-    opacity="0.7"
-    animation="property: rotation; to: 360 0 360; loop: true; dur: 8000; easing: linear">
-  </a-torus>
-  
-  <a-torus
-    position="3.5 3.5 -8.8"
-    radius="0.15"
-    radius-tubular="0.025"
-    color="#00ffaa"
-    opacity="0.7"
-    animation="property: rotation; to: -360 0 -360; loop: true; dur: 8000; easing: linear">
-  </a-torus>
-  
-  <a-torus
-    position="-3.5 -1.6 -8.8"
-    radius="0.15"
-    radius-tubular="0.025"
-    color="#00ffaa"
-    opacity="0.7"
-    animation="property: rotation; to: 360 360 0; loop: true; dur: 7500; easing: linear">
-  </a-torus>
-  
-  <a-torus
-    position="3.5 -1.6 -8.8"
-    radius="0.15"
-    radius-tubular="0.025"
-    color="#ff00ff"
-    opacity="0.7"
-    animation="property: rotation; to: -360 -360 0; loop: true; dur: 7500; easing: linear">
-  </a-torus>
-  
-  <!-- Orbiting stars system (8 stars in multiple orbits) -->
-  <a-entity id="orbit1" position="0 2.9 -8"
-            animation="property: rotation; to: 0 0 360; loop: true; dur: 12000; easing: linear">
-    <a-octahedron position="3.2 0 0" radius="0.11" color="#ffffff" opacity="0.9"></a-octahedron>
-  </a-entity>
-  
-  <a-entity id="orbit2" position="0 2.9 -8"
-            animation="property: rotation; to: 0 0 -360; loop: true; dur: 15000; easing: linear">
-    <a-octahedron position="3.5 0 0" radius="0.09" color="#ffd700" opacity="0.8"></a-octahedron>
-  </a-entity>
-  
-  <a-entity id="orbit3" position="0 2.9 -8"
-            animation="property: rotation; to: 0 0 360; loop: true; dur: 18000; easing: linear">
-    <a-octahedron position="3.8 0 0" radius="0.08" color="#00eaff" opacity="0.8"></a-octahedron>
-  </a-entity>
-  
-  <a-entity id="orbit4" position="0 2.9 -8"
-            animation="property: rotation; to: 0 0 -360; loop: true; dur: 20000; easing: linear">
-    <a-octahedron position="4.1 0 0" radius="0.07" color="#ff00ff" opacity="0.7"></a-octahedron>
-  </a-entity>
-  
-  <!-- Double orbit system -->
-  <a-entity id="orbit5" position="0 0.8 -8"
-            animation="property: rotation; to: 0 0 360; loop: true; dur: 14000; easing: linear">
-    <a-octahedron position="4.5 0 0" radius="0.09" color="#ffaa00" opacity="0.8"></a-octahedron>
-  </a-entity>
-  
-  <a-entity id="orbit6" position="0 0.8 -8"
-            animation="property: rotation; to: 0 0 -360; loop: true; dur: 16000; easing: linear">
-    <a-octahedron position="4.2 0 0" radius="0.08" color="#00ffaa" opacity="0.8"></a-octahedron>
-  </a-entity>
-  
-  <!-- Tetrahedrons floating (6 shapes) -->
-  <a-tetrahedron position="-4.5 2.5 -8.4" radius="0.12" color="#ffd700" opacity="0.7"
-                 animation="property: rotation; to: 360 360 360; loop: true; dur: 6000; easing: linear"></a-tetrahedron>
-  <a-tetrahedron position="4.5 2.5 -8.4" radius="0.12" color="#00eaff" opacity="0.7"
-                 animation="property: rotation; to: -360 -360 -360; loop: true; dur: 6000; easing: linear"></a-tetrahedron>
-  <a-tetrahedron position="-4.5 0.0 -8.4" radius="0.10" color="#ff00ff" opacity="0.7"
-                 animation="property: rotation; to: 360 -360 360; loop: true; dur: 7000; easing: linear"></a-tetrahedron>
-  <a-tetrahedron position="4.5 0.0 -8.4" radius="0.10" color="#00ffaa" opacity="0.7"
-                 animation="property: rotation; to: -360 360 -360; loop: true; dur: 7000; easing: linear"></a-tetrahedron>
-  
-  <!-- Icosahedrons for extra geometric complexity (4 shapes) -->
-  <a-icosahedron position="-5.5 2.0 -9.0" radius="0.10" color="#ffd700" opacity="0.6"
-                 animation="property: rotation; to: 360 360 0; loop: true; dur: 9000; easing: linear"></a-icosahedron>
-  <a-icosahedron position="5.5 2.0 -9.0" radius="0.10" color="#00eaff" opacity="0.6"
-                 animation="property: rotation; to: -360 -360 0; loop: true; dur: 9000; easing: linear"></a-icosahedron>
-  <a-icosahedron position="-5.5 0.5 -9.0" radius="0.10" color="#00eaff" opacity="0.6"
-                 animation="property: rotation; to: 0 360 360; loop: true; dur: 10000; easing: linear"></a-icosahedron>
-  <a-icosahedron position="5.5 0.5 -9.0" radius="0.10" color="#ffd700" opacity="0.6"
-                 animation="property: rotation; to: 0 -360 -360; loop: true; dur: 10000; easing: linear"></a-icosahedron>
+  <!-- AR Marker (hidden by default, appears when marker is detected) -->
+  <a-marker type="barcode" value="5">
+    <a-entity id="markerContent" position="0 0 0" scale="1 1 1">
+      <!-- Content appears here when marker is detected -->
+    </a-entity>
+  </a-marker>
   
 </a-scene>
 
@@ -905,6 +722,12 @@
   ];
   
   let currentDay = 0;
+  let currentZoom = 60; // Camera FOV (field of view) - smaller = zoom in
+  const ZOOM_MIN = 20; // Maximum zoom in
+  const ZOOM_MAX = 80; // Maximum zoom out
+  const ZOOM_DEFAULT = 60;
+  
+  // DOM Elements
   const dayTitle = document.getElementById("dayTitle");
   const dayDate = document.getElementById("dayDate");
   const line1 = document.getElementById("line1");
@@ -913,7 +736,103 @@
   const line4 = document.getElementById("line4");
   const dayLabel = document.getElementById("dayLabel");
   const dayIndicator = document.getElementById("dayIndicator");
+  const loading = document.getElementById("loading");
+  const compatibilityMessage = document.getElementById("compatibilityMessage");
+  const compatibilityText = document.getElementById("compatibilityText");
   
+  // Device detection
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  
+  // Check compatibility
+  function checkCompatibility() {
+    const hasWebGL = (() => {
+      try {
+        const canvas = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && 
+          (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+      } catch (e) {
+        return false;
+      }
+    })();
+    
+    const hasGetUserMedia = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+    
+    if (!hasWebGL) {
+      showCompatibilityMessage("Your device doesn't support WebGL, which is required for AR. Try updating your browser or using a different device.");
+      return false;
+    }
+    
+    if (!hasGetUserMedia) {
+      showCompatibilityMessage("Your browser doesn't support camera access. Please use a modern browser like Chrome, Firefox, or Safari.");
+      return false;
+    }
+    
+    if (isIOS) {
+      compatibilityText.textContent = "On iOS, please allow camera permissions when prompted.";
+    }
+    
+    return true;
+  }
+  
+  function showCompatibilityMessage(message) {
+    compatibilityText.textContent = message;
+    compatibilityMessage.classList.add('show');
+    loading.classList.add('hidden');
+  }
+  
+  function retryAR() {
+    compatibilityMessage.classList.remove('show');
+    loading.classList.remove('hidden');
+    initializeAR();
+  }
+  
+  // Initialize AR
+  function initializeAR() {
+    if (!checkCompatibility()) {
+      return;
+    }
+    
+    const scene = document.querySelector('a-scene');
+    
+    if (scene) {
+      scene.addEventListener('loaded', () => {
+        console.log('AR Scene loaded successfully');
+        
+        // Set initial zoom
+        updateZoom();
+        
+        // Hide loading screen after delay
+        setTimeout(() => {
+          loading.classList.add('hidden');
+        }, 2000);
+      });
+      
+      scene.addEventListener('arjs-nft-loaded', () => {
+        console.log('AR marker system loaded');
+      });
+      
+      scene.addEventListener('error', (e) => {
+        console.error('AR Scene error:', e.detail);
+        showCompatibilityMessage("Failed to initialize AR. Please ensure camera permissions are granted and try again.");
+      });
+    }
+    
+    // Request camera permissions
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(() => {
+          console.log('Camera access granted');
+        })
+        .catch((err) => {
+          console.error('Camera access denied:', err);
+          showCompatibilityMessage("Camera access is required for AR. Please allow camera permissions and refresh the page.");
+        });
+    }
+  }
+  
+  // Day management functions
   function updateDay() {
     const day = days[currentDay];
     
@@ -946,7 +865,7 @@
   }
   
   function playTransition() {
-    // Smooth scale animation for all content
+    // Smooth animation for all content
     [dayTitle, dayDate, line1, line2, line3, line4].forEach((elem, index) => {
       setTimeout(() => {
         elem.setAttribute('animation', 'property: scale; from: 0.8 0.8 0.8; to: 1.0 1.0 1.0; dur: 400; easing: easeOutBack');
@@ -957,20 +876,57 @@
     });
   }
   
+  // Zoom functions using camera FOV
+  function zoomIn() {
+    if (currentZoom > ZOOM_MIN) {
+      currentZoom -= 5;
+      updateZoom();
+    }
+  }
+  
+  function zoomOut() {
+    if (currentZoom < ZOOM_MAX) {
+      currentZoom += 5;
+      updateZoom();
+    }
+  }
+  
+  function resetZoom() {
+    currentZoom = ZOOM_DEFAULT;
+    updateZoom();
+  }
+  
+  function updateZoom() {
+    const camera = document.getElementById('arCamera');
+    if (camera) {
+      camera.setAttribute('fov', currentZoom);
+      
+      // Also adjust content scale for better effect
+      const content = document.getElementById('arContent');
+      if (content) {
+        const scale = 1 + (ZOOM_DEFAULT - currentZoom) * 0.01;
+        content.setAttribute('scale', `${scale} ${scale} ${scale}`);
+      }
+    }
+  }
+  
   // Initialize
   updateDay();
   
-  // Hide loading screen when AR is ready
+  // Start AR initialization
   window.addEventListener('load', () => {
     setTimeout(() => {
-      document.getElementById('loading').classList.add('hidden');
-    }, 2000);
+      initializeAR();
+    }, 500);
   });
   
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') prevDay();
     if (e.key === 'ArrowRight') nextDay();
+    if (e.key === 'ArrowUp' || e.key === '+' || e.key === '=') zoomIn();
+    if (e.key === 'ArrowDown' || e.key === '-' || e.key === '_') zoomOut();
+    if (e.key === '0' || e.key === 'r' || e.key === 'R') resetZoom();
   });
   
   // Touch swipe support
@@ -979,17 +935,7 @@
   
   document.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
-  });
+  }, { passive: true });
   
   document.addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  });
-  
-  function handleSwipe() {
-    if (touchEndX < touchStartX - 50) nextDay();
-    if (touchEndX > touchStartX + 50) prevDay();
-  }
-</script>
-</body>
-</html>
+    touchEndX = e.changedTouches
