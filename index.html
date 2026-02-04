@@ -2,159 +2,444 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IMPULSE 2k26 | AR Invitation</title>
-
   <!-- A-Frame & AR.js -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       overflow: hidden;
-      background: transparent;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      font-family: 'Poppins', sans-serif;
     }
-
+    
+    /* Animated background particles */
+    .bg-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 204, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 234, 255, 0.1) 0%, transparent 50%);
+    }
+    
+    /* Top banner */
+    .top-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+      padding: 20px;
+      z-index: 10;
+      text-align: center;
+    }
+    
+    .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      color: #ffd700;
+      letter-spacing: 3px;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    }
+    
     /* Bottom controls */
     .controls {
       position: fixed;
-      bottom: 24px;
+      bottom: 30px;
       left: 0;
       width: 100%;
       display: flex;
-      justify-content: center;
-      gap: 14px;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
       z-index: 10;
     }
-
+    
+    .nav-buttons {
+      display: flex;
+      gap: 16px;
+    }
+    
     .btn {
-      padding: 14px 26px;
-      border-radius: 40px;
+      padding: 16px 32px;
+      border-radius: 50px;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 16px;
       border: none;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
-
-    .btn-prev { background: #ffffff; color: #000; }
-    .btn-next { background: #ffffff; color: #000; }
-
+    
+    .btn-prev, .btn-next {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      width: 60px;
+      height: 60px;
+      padding: 0;
+      justify-content: center;
+    }
+    
+    .btn-prev:hover, .btn-next:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: scale(1.1);
+      box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+    }
+    
     .btn-register {
-      background: linear-gradient(135deg, #ffcc00, #ff8f00);
+      background: linear-gradient(135deg, #ffcc00 0%, #ff8f00 100%);
       color: #000;
+      box-shadow: 0 10px 30px rgba(255, 204, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-register:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn-register:hover:before {
+      left: 100%;
+    }
+    
+    .btn-register:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(255, 204, 0, 0.6);
+    }
+    
+    /* Day indicator */
+    .day-indicator {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .dot.active {
+      background: #ffcc00;
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.8);
+      transform: scale(1.3);
+    }
+    
+    /* Loading overlay */
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s;
+    }
+    
+    .loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 204, 0, 0.2);
+      border-top-color: #ffcc00;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      margin-top: 20px;
+      color: #ffffff;
+      font-size: 16px;
+      letter-spacing: 2px;
     }
   </style>
 </head>
-
 <body>
+<!-- Background particles -->
+<div class="bg-particles"></div>
+
+<!-- Loading screen -->
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">INITIALIZING AR...</div>
+</div>
+
+<!-- Top banner -->
+<div class="top-banner">
+  <div class="logo-text">⚡ IMPULSE 2K26 ⚡</div>
+</div>
 
 <!-- CONTROLS -->
 <div class="controls">
-  <button class="btn btn-prev" onclick="prevDay()">◀</button>
-  <button class="btn btn-next" onclick="nextDay()">▶</button>
+  <div class="day-indicator" id="dayIndicator">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-prev" onclick="prevDay()" aria-label="Previous day">◀</button>
+    <button class="btn btn-next" onclick="nextDay()" aria-label="Next day">▶</button>
+  </div>
   <a class="btn btn-register"
      href="https://forms.gle/txntsUbPfT5LPbjJ9"
-     target="_blank">
-    Register
+     target="_blank"
+     rel="noopener noreferrer">
+    🎯 Register Now
   </a>
 </div>
 
-<a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-
-  <!-- MAIN TITLE (FANCY LOOK) -->
+<a-scene 
+  embedded 
+  arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+  vr-mode-ui="enabled: false"
+  renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true;">
+  
+  <!-- Ambient lighting for better visibility -->
+  <a-entity light="type: ambient; color: #888; intensity: 0.5"></a-entity>
+  <a-entity light="type: directional; color: #fff; intensity: 0.8" position="-1 2 1"></a-entity>
+  
+  <!-- Background plane with gradient -->
+  <a-plane 
+    position="0 0.5 -8" 
+    rotation="0 0 0" 
+    width="12" 
+    height="8" 
+    color="#0a0a0a" 
+    opacity="0.3">
+  </a-plane>
+  
+  <!-- MAIN TITLE with glow effect -->
   <a-text
-    value="IMPULSE 2K26"
-    position="0 2.1 -5.5"
+    value="IMPULSE"
+    position="0 2.8 -7"
     align="center"
     color="#ffffff"
-    scale="4.2 4.2 4.2"
-    letter-spacing="6"
-    font="kelsonsans">
+    scale="3.5 3.5 3.5"
+    letter-spacing="8"
+    font="roboto"
+    shader="flat">
   </a-text>
-
-  <!-- DATE -->
+  
   <a-text
-    value="10 — 14 FEBRUARY 2026"
-    position="0 1.55 -5.5"
+    value="2K26"
+    position="0 2.2 -7"
     align="center"
     color="#ffd700"
-    scale="1.6 1.6 1.6"
-    letter-spacing="3">
+    scale="2.8 2.8 2.8"
+    letter-spacing="12"
+    font="roboto"
+    shader="flat">
   </a-text>
-
-  <!-- TAGLINE -->
+  
+  <!-- Decorative line -->
+  <a-plane
+    position="0 1.9 -6.9"
+    width="4"
+    height="0.02"
+    color="#00eaff">
+  </a-plane>
+  
+  <!-- DATE with styling -->
   <a-text
-    value="SPORTS • CULTURE • CELEBRATION"
-    position="0 1.05 -5.5"
-    align="center"
-    color="#dddddd"
-    scale="1.25 1.25 1.25"
-    letter-spacing="2">
-  </a-text>
-
-  <!-- DAY CONTENT -->
-  <a-text
-    id="dayText"
-    position="0 0.15 -5.5"
-    align="center"
-    color="#ffffff"
-    scale="1.6 1.6 1.6"
-    line-height="75"
-    letter-spacing="1">
-  </a-text>
-
-  <!-- FOOTER -->
-  <a-text
-    value="LAST DATE TO REGISTER • 6 FEB 2026"
-    position="0 -1.0 -5.5"
+    value="10 — 14 FEBRUARY"
+    position="0 1.6 -7"
     align="center"
     color="#00eaff"
     scale="1.2 1.2 1.2"
-    letter-spacing="2">
+    letter-spacing="4">
   </a-text>
-
+  
+  <!-- TAGLINE -->
+  <a-text
+    value="SPORTS • CULTURE • CELEBRATION"
+    position="0 1.3 -7"
+    align="center"
+    color="#cccccc"
+    scale="0.9 0.9 0.9"
+    letter-spacing="3">
+  </a-text>
+  
+  <!-- DAY CONTENT with better spacing -->
+  <a-text
+    id="dayText"
+    position="0 0.3 -7"
+    align="center"
+    color="#ffffff"
+    scale="1.1 1.1 1.1"
+    line-height="60"
+    letter-spacing="2"
+    wrap-count="35">
+  </a-text>
+  
+  <!-- Bottom decorative line -->
+  <a-plane
+    position="0 -0.95 -6.9"
+    width="5"
+    height="0.02"
+    color="#ffcc00">
+  </a-plane>
+  
+  <!-- FOOTER -->
+  <a-text
+    value="LAST DATE TO REGISTER"
+    position="0 -1.2 -7"
+    align="center"
+    color="#ff6b6b"
+    scale="0.95 0.95 0.95"
+    letter-spacing="3">
+  </a-text>
+  
+  <a-text
+    value="6 FEBRUARY 2026"
+    position="0 -1.5 -7"
+    align="center"
+    color="#00eaff"
+    scale="1.1 1.1 1.1"
+    letter-spacing="4">
+  </a-text>
+  
+  <!-- Rotating accent shapes for visual interest -->
+  <a-ring
+    position="-3 2.5 -7.5"
+    radius-inner="0.15"
+    radius-outer="0.2"
+    color="#ffcc00"
+    opacity="0.6"
+    animation="property: rotation; to: 0 0 360; loop: true; dur: 10000; easing: linear">
+  </a-ring>
+  
+  <a-ring
+    position="3 2.5 -7.5"
+    radius-inner="0.15"
+    radius-outer="0.2"
+    color="#00eaff"
+    opacity="0.6"
+    animation="property: rotation; to: 0 0 -360; loop: true; dur: 10000; easing: linear">
+  </a-ring>
+  
 </a-scene>
 
 <script>
   const days = [
-`DAY 1 — 10 FEB
-CRICKET • VOLLEYBALL • KABADDI
-CHESS • CARROM • LUDO • LAGORI`,
-
-`DAY 2 — 11 FEB
-SPORTS CONTINUATION
-SEMI-FINAL MATCHES`,
-
-`DAY 3 — 12 FEB
-FINAL MATCHES`,
-
-`DAY 4 — 13 FEB
-BOLLYWOOD & TRADITIONAL DAY
-FUN & FOOD CARNIVAL
-TREASURE HUNT`,
-
-`DAY 5 — 14 FEB
-GRAND FINALE
-DANCE • SINGING • DRAMA
-FASHION SHOW & AWARDS`
+    {
+      title: "DAY 1 — MONDAY, 10 FEB",
+      content: "CRICKET • VOLLEYBALL\nKABADDI • CHESS\nCARROM • LUDO • LAGORI"
+    },
+    {
+      title: "DAY 2 — TUESDAY, 11 FEB",
+      content: "SPORTS CONTINUATION\n⚡ SEMI-FINAL MATCHES ⚡\nINTENSE COMPETITION"
+    },
+    {
+      title: "DAY 3 — WEDNESDAY, 12 FEB",
+      content: "🏆 FINAL MATCHES 🏆\nCHAMPIONS EMERGE\nGLORY AWAITS"
+    },
+    {
+      title: "DAY 4 — THURSDAY, 13 FEB",
+      content: "BOLLYWOOD DAY\nTRADITIONAL CELEBRATIONS\nFOOD CARNIVAL • TREASURE HUNT"
+    },
+    {
+      title: "DAY 5 — FRIDAY, 14 FEB",
+      content: "🎭 GRAND FINALE 🎭\nDANCE • SINGING • DRAMA\nFASHION SHOW & AWARDS"
+    }
   ];
-
+  
   let currentDay = 0;
   const dayText = document.getElementById("dayText");
-  dayText.setAttribute("value", days[currentDay]);
-
+  const dayIndicator = document.getElementById("dayIndicator");
+  
+  function updateDay() {
+    const day = days[currentDay];
+    dayText.setAttribute("value", `${day.title}\n\n${day.content}`);
+    
+    // Update dots
+    const dots = dayIndicator.querySelectorAll('.dot');
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentDay);
+    });
+  }
+  
   function nextDay() {
     currentDay = (currentDay + 1) % days.length;
-    dayText.setAttribute("value", days[currentDay]);
+    updateDay();
+    playTransition();
   }
-
+  
   function prevDay() {
     currentDay = (currentDay - 1 + days.length) % days.length;
-    dayText.setAttribute("value", days[currentDay]);
+    updateDay();
+    playTransition();
   }
+  
+  function playTransition() {
+    // Add a subtle scale animation on transition
+    dayText.setAttribute('animation', 'property: scale; from: 0.9 0.9 0.9; to: 1.1 1.1 1.1; dur: 300; easing: easeOutQuad');
+    setTimeout(() => {
+      dayText.removeAttribute('animation');
+    }, 300);
+  }
+  
+  // Initialize
+  updateDay();
+  
+  // Hide loading screen when AR is ready
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loading').classList.add('hidden');
+    }, 2000);
+  });
+  
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') prevDay();
+    if (e.key === 'ArrowRight') nextDay();
+  });
 </script>
-
 </body>
 </html>
