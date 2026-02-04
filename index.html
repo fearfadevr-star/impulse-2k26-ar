@@ -1,62 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>IMPULSE 2k26 AR Invite</title>
+  <meta charset="utf-8" />
+  <title>IMPULSE 2k26 | AR Invitation</title>
 
+  <!-- A-Frame & AR.js -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Bottom fixed register button */
+    .cta {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .cta a {
+      background: linear-gradient(135deg, #ffcc00, #ff9f00);
+      padding: 16px 30px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 700;
+      color: #000;
+      font-size: 18px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+  </style>
 </head>
 
-<body style="margin:0; overflow:hidden;">
+<body>
 
 <!-- REGISTER BUTTON -->
-<div style="
-position: fixed;
-bottom: 20px;
-width: 100%;
-text-align: center;
-z-index: 10;">
-  <a href="https://forms.gle/txntsUbPfT5LPbjJ9" target="_blank"
-     style="
-     background: #ffcc00;
-     padding: 15px 25px;
-     border-radius: 30px;
-     text-decoration: none;
-     font-weight: bold;
-     color: black;
-     font-size: 18px;">
-     Register for IMPULSE 2k26
+<div class="cta">
+  <a href="https://forms.gle/txntsUbPfT5LPbjJ9" target="_blank">
+    Register for IMPULSE 2k26
   </a>
 </div>
 
-<a-scene embedded arjs>
+<!-- AR SCENE -->
+<a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+
+  <!-- MAIN TITLE -->
   <a-text
-    value="IMPULSE 2k26 🎉
-10–14 February 2026"
-    position="0 1.5 -3"
+    value="IMPULSE 2k26"
+    position="0 1.6 -3"
     align="center"
-    color="white"
-    scale="2 2 2">
+    color="#ffffff"
+    scale="3 3 3"
+    font="kelsonsans">
   </a-text>
 
+  <!-- SUBTITLE -->
   <a-text
-    value="Day 1–3: Sports 🏆
-Day 4: Bollywood & Traditional 🎬
-Day 5: Grand Finale 🎇"
-    position="0 0.6 -3"
+    value="10 – 14 FEBRUARY 2026"
+    position="0 1.15 -3"
     align="center"
-    color="yellow"
-    scale="1.5 1.5 1.5">
+    color="#ffd966"
+    scale="1.4 1.4 1.4">
   </a-text>
 
+  <!-- TAGLINE -->
   <a-text
-    value="Last Date: 6 Feb 2026"
-    position="0 -0.2 -3"
+    value="5 DAYS • SPORTS • CULTURE • CELEBRATION"
+    position="0 0.75 -3"
     align="center"
-    color="cyan"
-    scale="1.3 1.3 1.3">
+    color="#e0e0e0"
+    scale="1.1 1.1 1.1">
   </a-text>
+
+  <!-- EVENT HIGHLIGHTS -->
+  <a-text
+    value="DAY 1–3  |  SPORTS EVENTS 🏆
+DAY 4     |  BOLLYWOOD & TRADITIONAL 🎬
+DAY 5     |  GRAND FINALE 🎇"
+    position="0 0.1 -3"
+    align="center"
+    color="#ffffff"
+    scale="1.2 1.2 1.2"
+    line-height="60">
+  </a-text>
+
+  <!-- DEADLINE -->
+  <a-text
+    value="LAST DATE TO REGISTER
+6 FEBRUARY 2026"
+    position="0 -0.6 -3"
+    align="center"
+    color="#00e5ff"
+    scale="1.1 1.1 1.1">
+  </a-text>
+
 </a-scene>
 
 </body>
