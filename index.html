@@ -343,6 +343,25 @@
       0%, 100% { opacity: 0.5; }
       50% { opacity: 1; }
     }
+    
+    /* Hide A-Frame default loading screen and debug UI */
+    .a-loader-title,
+    .a-canvas .a-loader-title,
+    .a-enter-vr,
+    .a-enter-ar,
+    #arjsDebugUIContainer,
+    [id^="arjs"],
+    .arjs-loader {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    
+    /* Ensure our loading screen is visible */
+    .loading {
+      display: flex !important;
+    }
   </style>
 </head>
 <body>
@@ -393,10 +412,11 @@
   embedded 
   arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
   vr-mode-ui="enabled: false"
+  loading-screen="enabled: false"
   renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true;">
   
-  <!-- Camera with zoom control -->
-  <a-camera id="arCamera" position="0 0 0">
+  <!-- Camera with zoom control - position fixed to prevent auto-zoom -->
+  <a-camera id="arCamera" position="0 0 0" look-controls-enabled="false" wasd-controls-enabled="false">
     <a-entity id="cameraRig"></a-entity>
   </a-camera>
   
@@ -1015,7 +1035,36 @@
       setTimeout(() => {
         applyZoom();
       }, 200);
+      
+      // Keep enforcing zoom for Android devices
+      if (isAndroid) {
+        let enforceCount = 0;
+        const enforceInterval = setInterval(() => {
+          applyZoom();
+          enforceCount++;
+          if (enforceCount > 10) { // Stop after 10 attempts (5 seconds)
+            clearInterval(enforceInterval);
+          }
+        }, 500);
+      }
     });
+  }
+  
+  // Additional enforcement: watch for camera position changes
+  if (isAndroid) {
+    setInterval(() => {
+      const camera = document.getElementById('arCamera');
+      if (camera) {
+        const currentPos = camera.getAttribute('position');
+        const expectedZ = currentZoom * 1.5;
+        
+        // If camera position changed unexpectedly, reapply
+        if (Math.abs(currentPos.z - expectedZ) > 0.5) {
+          console.log('Camera position changed, reapplying zoom...');
+          applyZoom();
+        }
+      }
+    }, 1000); // Check every second
   }
   
   // Keyboard navigation
