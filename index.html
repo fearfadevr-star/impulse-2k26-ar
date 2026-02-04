@@ -888,7 +888,7 @@
   ];
   
   let currentDay = 0;
-  let currentZoom = -3; // Start zoomed out for Android, Range: -5 to 5
+  let currentZoom = -5; // Start zoomed out for Android, Range: -8 to 5
   
   const dayTitle = document.getElementById("dayTitle");
   const dayDate = document.getElementById("dayDate");
@@ -902,7 +902,7 @@
   // Detect if device is likely Android/low-end
   const isAndroid = /android/i.test(navigator.userAgent);
   if (isAndroid) {
-    currentZoom = -4; // Start more zoomed out on Android
+    currentZoom = -6; // Start very zoomed out on Android to show full content
   }
   
   function updateDay() {
@@ -957,14 +957,14 @@
   }
   
   function zoomOut() {
-    if (currentZoom > -5) {
+    if (currentZoom > -8) { // Extended range for better Android support
       currentZoom--;
       applyZoom();
     }
   }
   
   function resetZoom() {
-    currentZoom = 0;
+    currentZoom = isAndroid ? -6 : 0; // Reset to device-specific default
     applyZoom();
   }
   
@@ -974,7 +974,7 @@
       // Adjust camera position Z value for zoom effect
       // More negative = zoom in, less negative = zoom out
       const baseZ = 0;
-      const zoomOffset = currentZoom * 1.2; // 1.2 units per zoom level
+      const zoomOffset = currentZoom * 1.5; // 1.5 units per zoom level for better range
       camera.setAttribute('position', `0 0 ${baseZ + zoomOffset}`);
     }
   }
@@ -982,17 +982,41 @@
   // Initialize
   updateDay();
   
-  // Apply initial zoom setting
+  // Apply initial zoom setting immediately
+  applyZoom();
+  
+  // Reapply zoom after a short delay to ensure camera is ready
   setTimeout(() => {
     applyZoom();
-  }, 100);
+  }, 500);
   
   // Hide loading screen when AR is ready
   window.addEventListener('load', () => {
     setTimeout(() => {
       document.getElementById('loading').classList.add('hidden');
+      // Apply zoom one more time after everything loads
+      applyZoom();
     }, 2000);
   });
+  
+  // Listen for A-Frame scene loaded event
+  const scene = document.querySelector('a-scene');
+  if (scene) {
+    scene.addEventListener('loaded', () => {
+      console.log('Scene loaded, applying zoom...');
+      setTimeout(() => {
+        applyZoom();
+      }, 100);
+    });
+    
+    // Also listen for AR.js ready
+    scene.addEventListener('arjs-video-loaded', () => {
+      console.log('AR camera ready, applying zoom...');
+      setTimeout(() => {
+        applyZoom();
+      }, 200);
+    });
+  }
   
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
