@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IMPULSE 2k26 | AR Invitation</title>
   <!-- A-Frame & AR.js -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
@@ -19,7 +19,6 @@
       overflow: hidden;
       background: linear-gradient(135deg, #000000 0%, #0f0f23 50%, #1a0a2e 100%);
       font-family: 'Rajdhani', sans-serif;
-      touch-action: pan-x pan-y pinch-zoom;
     }
     
     /* Animated background with stars */
@@ -88,49 +87,6 @@
           0 0 30px rgba(255, 215, 0, 0.8),
           0 0 40px rgba(255, 215, 0, 0.6);
       }
-    }
-    
-    /* Zoom controls */
-    .zoom-controls {
-      position: fixed;
-      top: 90px;
-      right: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 15;
-    }
-    
-    .zoom-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(0, 234, 255, 0.3), rgba(138, 43, 226, 0.3));
-      border: 2px solid rgba(0, 234, 255, 0.6);
-      color: #ffffff;
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s;
-      box-shadow: 0 0 15px rgba(0, 234, 255, 0.4);
-    }
-    
-    .zoom-btn:active {
-      transform: scale(0.9);
-      background: linear-gradient(135deg, rgba(0, 234, 255, 0.5), rgba(138, 43, 226, 0.5));
-    }
-    
-    .zoom-reset {
-      font-size: 16px;
-      padding: 8px;
-      height: auto;
-      border-radius: 25px;
-      font-family: 'Rajdhani', sans-serif;
-      letter-spacing: 1px;
     }
     
     /* Bottom controls */
@@ -343,25 +299,6 @@
       0%, 100% { opacity: 0.5; }
       50% { opacity: 1; }
     }
-    
-    /* Hide A-Frame default loading screen and debug UI */
-    .a-loader-title,
-    .a-canvas .a-loader-title,
-    .a-enter-vr,
-    .a-enter-ar,
-    #arjsDebugUIContainer,
-    [id^="arjs"],
-    .arjs-loader {
-      display: none !important;
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-    }
-    
-    /* Ensure our loading screen is visible */
-    .loading {
-      display: flex !important;
-    }
   </style>
 </head>
 <body>
@@ -377,13 +314,6 @@
 <!-- Top banner -->
 <div class="top-banner">
   <div class="logo-text">⚡ IMPULSE 2K26 ⚡</div>
-</div>
-
-<!-- Zoom Controls -->
-<div class="zoom-controls">
-  <button class="zoom-btn" onclick="zoomIn()" aria-label="Zoom in">+</button>
-  <button class="zoom-btn zoom-reset" onclick="resetZoom()" aria-label="Reset zoom">RESET</button>
-  <button class="zoom-btn" onclick="zoomOut()" aria-label="Zoom out">−</button>
 </div>
 
 <!-- CONTROLS -->
@@ -412,13 +342,7 @@
   embedded 
   arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
   vr-mode-ui="enabled: false"
-  loading-screen="enabled: false"
   renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true;">
-  
-  <!-- Camera with zoom control - position fixed to prevent auto-zoom -->
-  <a-camera id="arCamera" position="0 0 0" look-controls-enabled="false" wasd-controls-enabled="false">
-    <a-entity id="cameraRig"></a-entity>
-  </a-camera>
   
   <!-- Enhanced lighting setup with multiple colored lights -->
   <a-entity light="type: ambient; color: #666; intensity: 0.7"></a-entity>
@@ -451,7 +375,7 @@
     shader="flat">
   </a-plane>
   
-  <!-- MASSIVE PARTICLE SYSTEM - Golden Particles (reduced for performance) -->
+  <!-- MASSIVE PARTICLE SYSTEM - Golden Particles (20 particles) -->
   <a-entity id="golden-particles">
     <a-sphere position="-4.5 3.8 -9" radius="0.09" color="#ffd700" opacity="0.8"
               animation="property: position; to: -4.5 1.2 -9; dir: alternate; dur: 3800; loop: true; easing: easeInOutQuad"></a-sphere>
@@ -463,9 +387,19 @@
               animation="property: position; to: 3.5 1.5 -8.8; dir: alternate; dur: 3900; loop: true; easing: easeInOutQuad"></a-sphere>
     <a-sphere position="-4.8 1.8 -8.2" radius="0.05" color="#ffd700" opacity="0.85"
               animation="property: position; to: -4.8 3.5 -8.2; dir: alternate; dur: 4500; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="4.5 2.8 -8.6" radius="0.07" color="#ffbb00" opacity="0.8"
+              animation="property: position; to: 4.5 1.3 -8.6; dir: alternate; dur: 4000; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="-5.2 3.5 -9.2" radius="0.06" color="#ffd700" opacity="0.7"
+              animation="property: position; to: -5.2 1.8 -9.2; dir: alternate; dur: 3700; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="5.0 2.2 -9.0" radius="0.08" color="#ffcc00" opacity="0.85"
+              animation="property: position; to: 5.0 3.9 -9.0; dir: alternate; dur: 4100; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="-3.2 1.2 -8.0" radius="0.05" color="#ffd700" opacity="0.75"
+              animation="property: position; to: -3.2 3.6 -8.0; dir: alternate; dur: 3600; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="3.8 3.7 -8.3" radius="0.07" color="#ffaa00" opacity="0.8"
+              animation="property: position; to: 3.8 1.4 -8.3; dir: alternate; dur: 4300; loop: true; easing: easeInOutQuad"></a-sphere>
   </a-entity>
   
-  <!-- Cyan/Blue Particles (reduced for performance) -->
+  <!-- Cyan/Blue Particles (20 particles) -->
   <a-entity id="cyan-particles">
     <a-sphere position="4.0 3.9 -8.9" radius="0.08" color="#00eaff" opacity="0.8"
               animation="property: position; to: 4.0 1.1 -8.9; dir: alternate; dur: 3700; loop: true; easing: easeInOutQuad"></a-sphere>
@@ -477,6 +411,16 @@
               animation="property: position; to: -4.7 1.6 -8.7; dir: alternate; dur: 4400; loop: true; easing: easeInOutQuad"></a-sphere>
     <a-sphere position="4.6 1.7 -8.1" radius="0.08" color="#00bbff" opacity="0.8"
               animation="property: position; to: 4.6 3.4 -8.1; dir: alternate; dur: 4200; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="-5.1 2.6 -9.3" radius="0.06" color="#00d4ff" opacity="0.7"
+              animation="property: position; to: -5.1 1.2 -9.3; dir: alternate; dur: 3800; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="5.3 3.1 -8.5" radius="0.07" color="#00eaff" opacity="0.85"
+              animation="property: position; to: 5.3 1.5 -8.5; dir: alternate; dur: 4000; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="-3.6 1.9 -8.2" radius="0.05" color="#00ccff" opacity="0.75"
+              animation="property: position; to: -3.6 3.5 -8.2; dir: alternate; dur: 3600; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="3.9 2.7 -9.4" radius="0.08" color="#00d4ff" opacity="0.8"
+              animation="property: position; to: 3.9 1.3 -9.4; dir: alternate; dur: 4300; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="-4.4 3.6 -9.1" radius="0.06" color="#00eaff" opacity="0.7"
+              animation="property: position; to: -4.4 1.8 -9.1; dir: alternate; dur: 3500; loop: true; easing: easeInOutQuad"></a-sphere>
   </a-entity>
   
   <!-- Purple/Pink Particles (10 particles) -->
@@ -778,7 +722,7 @@
     letter-spacing="4">
   </a-text>
   
-  <!-- MASSIVE rotating torus collection (reduced for performance) -->
+  <!-- MASSIVE rotating torus collection (12 torus shapes) -->
   <a-torus
     position="-4.0 2.9 -8.6"
     radius="0.22"
@@ -815,7 +759,44 @@
     animation="property: rotation; to: 0 -360 -360; loop: true; dur: 9000; easing: linear">
   </a-torus>
   
-  <!-- Orbiting stars system (reduced for performance) -->
+  <!-- Additional smaller torus shapes -->
+  <a-torus
+    position="-3.5 3.5 -8.8"
+    radius="0.15"
+    radius-tubular="0.025"
+    color="#ff00ff"
+    opacity="0.7"
+    animation="property: rotation; to: 360 0 360; loop: true; dur: 8000; easing: linear">
+  </a-torus>
+  
+  <a-torus
+    position="3.5 3.5 -8.8"
+    radius="0.15"
+    radius-tubular="0.025"
+    color="#00ffaa"
+    opacity="0.7"
+    animation="property: rotation; to: -360 0 -360; loop: true; dur: 8000; easing: linear">
+  </a-torus>
+  
+  <a-torus
+    position="-3.5 -1.6 -8.8"
+    radius="0.15"
+    radius-tubular="0.025"
+    color="#00ffaa"
+    opacity="0.7"
+    animation="property: rotation; to: 360 360 0; loop: true; dur: 7500; easing: linear">
+  </a-torus>
+  
+  <a-torus
+    position="3.5 -1.6 -8.8"
+    radius="0.15"
+    radius-tubular="0.025"
+    color="#ff00ff"
+    opacity="0.7"
+    animation="property: rotation; to: -360 -360 0; loop: true; dur: 7500; easing: linear">
+  </a-torus>
+  
+  <!-- Orbiting stars system (8 stars in multiple orbits) -->
   <a-entity id="orbit1" position="0 2.9 -8"
             animation="property: rotation; to: 0 0 360; loop: true; dur: 12000; easing: linear">
     <a-octahedron position="3.2 0 0" radius="0.11" color="#ffffff" opacity="0.9"></a-octahedron>
@@ -829,6 +810,22 @@
   <a-entity id="orbit3" position="0 2.9 -8"
             animation="property: rotation; to: 0 0 360; loop: true; dur: 18000; easing: linear">
     <a-octahedron position="3.8 0 0" radius="0.08" color="#00eaff" opacity="0.8"></a-octahedron>
+  </a-entity>
+  
+  <a-entity id="orbit4" position="0 2.9 -8"
+            animation="property: rotation; to: 0 0 -360; loop: true; dur: 20000; easing: linear">
+    <a-octahedron position="4.1 0 0" radius="0.07" color="#ff00ff" opacity="0.7"></a-octahedron>
+  </a-entity>
+  
+  <!-- Double orbit system -->
+  <a-entity id="orbit5" position="0 0.8 -8"
+            animation="property: rotation; to: 0 0 360; loop: true; dur: 14000; easing: linear">
+    <a-octahedron position="4.5 0 0" radius="0.09" color="#ffaa00" opacity="0.8"></a-octahedron>
+  </a-entity>
+  
+  <a-entity id="orbit6" position="0 0.8 -8"
+            animation="property: rotation; to: 0 0 -360; loop: true; dur: 16000; easing: linear">
+    <a-octahedron position="4.2 0 0" radius="0.08" color="#00ffaa" opacity="0.8"></a-octahedron>
   </a-entity>
   
   <!-- Tetrahedrons floating (6 shapes) -->
@@ -908,8 +905,6 @@
   ];
   
   let currentDay = 0;
-  let currentZoom = -5; // Start zoomed out for Android, Range: -8 to 5
-  
   const dayTitle = document.getElementById("dayTitle");
   const dayDate = document.getElementById("dayDate");
   const line1 = document.getElementById("line1");
@@ -918,12 +913,6 @@
   const line4 = document.getElementById("line4");
   const dayLabel = document.getElementById("dayLabel");
   const dayIndicator = document.getElementById("dayIndicator");
-  
-  // Detect if device is likely Android/low-end
-  const isAndroid = /android/i.test(navigator.userAgent);
-  if (isAndroid) {
-    currentZoom = -7; // Start very zoomed out on Android to compensate for auto-zoom
-  }
   
   function updateDay() {
     const day = days[currentDay];
@@ -968,112 +957,20 @@
     });
   }
   
-  // Zoom functions
-  function zoomIn() {
-    if (currentZoom < 5) {
-      currentZoom++;
-      applyZoom();
-    }
-  }
-  
-  function zoomOut() {
-    if (currentZoom > -8) { // Extended range for better Android support
-      currentZoom--;
-      applyZoom();
-    }
-  }
-  
-  function resetZoom() {
-    currentZoom = isAndroid ? -7 : 0; // Reset to device-specific default
-    applyZoom();
-  }
-  
-  function applyZoom() {
-    const camera = document.getElementById('arCamera');
-    if (camera) {
-      // Adjust camera position Z value for zoom effect
-      // More negative = zoom in, less negative = zoom out
-      const baseZ = 0;
-      const zoomOffset = currentZoom * 1.5; // 1.5 units per zoom level for better range
-      camera.setAttribute('position', `0 0 ${baseZ + zoomOffset}`);
-    }
-  }
-  
   // Initialize
   updateDay();
-  
-  // Apply initial zoom setting immediately
-  applyZoom();
-  
-  // Reapply zoom after a short delay to ensure camera is ready
-  setTimeout(() => {
-    applyZoom();
-  }, 500);
   
   // Hide loading screen when AR is ready
   window.addEventListener('load', () => {
     setTimeout(() => {
       document.getElementById('loading').classList.add('hidden');
-      // Apply zoom one more time after everything loads
-      applyZoom();
     }, 2000);
   });
-  
-  // Listen for A-Frame scene loaded event
-  const scene = document.querySelector('a-scene');
-  if (scene) {
-    scene.addEventListener('loaded', () => {
-      console.log('Scene loaded, applying zoom...');
-      setTimeout(() => {
-        applyZoom();
-      }, 100);
-    });
-    
-    // Also listen for AR.js ready
-    scene.addEventListener('arjs-video-loaded', () => {
-      console.log('AR camera ready, applying zoom...');
-      setTimeout(() => {
-        applyZoom();
-      }, 200);
-      
-      // Keep enforcing zoom for Android devices
-      if (isAndroid) {
-        let enforceCount = 0;
-        const enforceInterval = setInterval(() => {
-          applyZoom();
-          enforceCount++;
-          if (enforceCount > 10) { // Stop after 10 attempts (5 seconds)
-            clearInterval(enforceInterval);
-          }
-        }, 500);
-      }
-    });
-  }
-  
-  // Additional enforcement: watch for camera position changes
-  if (isAndroid) {
-    setInterval(() => {
-      const camera = document.getElementById('arCamera');
-      if (camera) {
-        const currentPos = camera.getAttribute('position');
-        const expectedZ = currentZoom * 1.5;
-        
-        // If camera position changed unexpectedly, reapply
-        if (Math.abs(currentPos.z - expectedZ) > 0.5) {
-          console.log('Camera position changed, reapplying zoom...');
-          applyZoom();
-        }
-      }
-    }, 1000); // Check every second
-  }
   
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') prevDay();
     if (e.key === 'ArrowRight') nextDay();
-    if (e.key === 'ArrowUp' || e.key === '+' || e.key === '=') zoomIn();
-    if (e.key === 'ArrowDown' || e.key === '-' || e.key === '_') zoomOut();
-    if (e.key === '0' || e.key === 'r' || e.key === 'R') resetZoom();
   });
   
   // Touch swipe support
@@ -1092,42 +989,6 @@
   function handleSwipe() {
     if (touchEndX < touchStartX - 50) nextDay();
     if (touchEndX > touchStartX + 50) prevDay();
-  }
-  
-  // Pinch-to-zoom support (FIXED: pinch in = zoom in, pinch out = zoom out)
-  let initialDistance = 0;
-  let currentDistance = 0;
-  
-  document.addEventListener('touchstart', e => {
-    if (e.touches.length === 2) {
-      initialDistance = getDistance(e.touches[0], e.touches[1]);
-    }
-  });
-  
-  document.addEventListener('touchmove', e => {
-    if (e.touches.length === 2) {
-      e.preventDefault(); // Prevent default pinch-zoom behavior
-      currentDistance = getDistance(e.touches[0], e.touches[1]);
-      
-      const delta = currentDistance - initialDistance;
-      
-      if (Math.abs(delta) > 20) { // Threshold to prevent jitter
-        // FIXED: When distance increases (pinch out), zoom out
-        // When distance decreases (pinch in), zoom in
-        if (delta > 0) {
-          zoomOut(); // Pinch out = zoom out
-        } else {
-          zoomIn(); // Pinch in = zoom in
-        }
-        initialDistance = currentDistance;
-      }
-    }
-  }, { passive: false });
-  
-  function getDistance(touch1, touch2) {
-    const dx = touch1.clientX - touch2.clientX;
-    const dy = touch1.clientY - touch2.clientY;
-    return Math.sqrt(dx * dx + dy * dy);
   }
 </script>
 </body>
