@@ -8,8 +8,8 @@
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -18,51 +18,68 @@
       font-family: 'Poppins', sans-serif;
     }
 
-    /* Bottom fixed register button */
-    .cta {
+    /* Bottom controls container */
+    .controls {
       position: fixed;
       bottom: 20px;
+      left: 0;
       width: 100%;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
       z-index: 10;
     }
 
-    .cta a {
-      background: linear-gradient(135deg, #ffcc00, #ff9f00);
-      padding: 16px 30px;
-      border-radius: 40px;
-      text-decoration: none;
+    .btn {
+      padding: 14px 22px;
+      border-radius: 30px;
       font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
+    .btn-next {
+      background: #ffffff;
       color: #000;
-      font-size: 18px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .btn-prev {
+      background: #dddddd;
+      color: #000;
+    }
+
+    .btn-register {
+      background: linear-gradient(135deg, #ffcc00, #ff9f00);
+      color: #000;
     }
   </style>
 </head>
 
 <body>
 
-<!-- REGISTER BUTTON -->
-<div class="cta">
-  <a href="https://forms.gle/txntsUbPfT5LPbjJ9" target="_blank">
-    Register for IMPULSE 2k26
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn btn-prev" onclick="prevDay()">◀ Prev</button>
+  <button class="btn btn-next" onclick="nextDay()">Next ▶</button>
+  <a class="btn btn-register" href="https://forms.gle/txntsUbPfT5LPbjJ9" target="_blank">
+    Register
   </a>
 </div>
 
-<!-- AR SCENE -->
 <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
 
-  <!-- MAIN TITLE -->
+  <!-- TITLE -->
   <a-text
     value="IMPULSE 2k26"
     position="0 1.6 -3"
     align="center"
     color="#ffffff"
-    scale="3 3 3"
-    font="kelsonsans">
+    scale="3 3 3">
   </a-text>
 
-  <!-- SUBTITLE -->
   <a-text
     value="10 – 14 FEBRUARY 2026"
     position="0 1.15 -3"
@@ -71,38 +88,65 @@
     scale="1.4 1.4 1.4">
   </a-text>
 
-  <!-- TAGLINE -->
+  <!-- DAY TEXT -->
   <a-text
-    value="5 DAYS • SPORTS • CULTURE • CELEBRATION"
-    position="0 0.75 -3"
-    align="center"
-    color="#e0e0e0"
-    scale="1.1 1.1 1.1">
-  </a-text>
-
-  <!-- EVENT HIGHLIGHTS -->
-  <a-text
-    value="DAY 1–3  |  SPORTS EVENTS 🏆
-DAY 4     |  BOLLYWOOD & TRADITIONAL 🎬
-DAY 5     |  GRAND FINALE 🎇"
-    position="0 0.1 -3"
+    id="dayText"
+    position="0 0.3 -3"
     align="center"
     color="#ffffff"
-    scale="1.2 1.2 1.2"
+    scale="1.4 1.4 1.4"
     line-height="60">
   </a-text>
 
-  <!-- DEADLINE -->
+  <!-- FOOTER -->
   <a-text
-    value="LAST DATE TO REGISTER
-6 FEBRUARY 2026"
-    position="0 -0.6 -3"
+    value="LAST DATE TO REGISTER • 6 FEB 2026"
+    position="0 -0.7 -3"
     align="center"
     color="#00e5ff"
     scale="1.1 1.1 1.1">
   </a-text>
 
 </a-scene>
+
+<script>
+  const days = [
+`DAY 1 – 10 FEB 🏏
+CRICKET • VOLLEYBALL • KABADDI
+CHESS • CARROM • LUDO • LAGORI`,
+
+`DAY 2 – 11 FEB 🏆
+SPORTS CONTINUATION
+SEMI-FINAL MATCHES`,
+
+`DAY 3 – 12 FEB 🥇
+FINAL MATCHES`,
+
+`DAY 4 – 13 FEB 🎬
+BOLLYWOOD & TRADITIONAL DAY
+FUN & FOOD CARNIVAL
+TREASURE HUNT`,
+
+`DAY 5 – 14 FEB 🎇
+GRAND FINALE
+DANCE • SINGING • DRAMA
+FASHION SHOW & AWARDS`
+  ];
+
+  let currentDay = 0;
+  const dayText = document.getElementById("dayText");
+  dayText.setAttribute("value", days[currentDay]);
+
+  function nextDay() {
+    currentDay = (currentDay + 1) % days.length;
+    dayText.setAttribute("value", days[currentDay]);
+  }
+
+  function prevDay() {
+    currentDay = (currentDay - 1 + days.length) % days.length;
+    dayText.setAttribute("value", days[currentDay]);
+  }
+</script>
 
 </body>
 </html>
