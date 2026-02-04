@@ -7,7 +7,7 @@
   <!-- A-Frame & AR.js -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;600;700&family=Audiowide&family=Russo+One&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -17,11 +17,11 @@
     body {
       margin: 0;
       overflow: hidden;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #000000 0%, #0f0f23 50%, #1a0a2e 100%);
+      font-family: 'Rajdhani', sans-serif;
     }
     
-    /* Animated background particles */
+    /* Animated background with stars */
     .bg-particles {
       position: fixed;
       top: 0;
@@ -31,28 +31,60 @@
       z-index: 1;
       pointer-events: none;
       background: 
-        radial-gradient(circle at 20% 50%, rgba(255, 204, 0, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(0, 234, 255, 0.1) 0%, transparent 50%);
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(circle at 20% 50%, rgba(255, 204, 0, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 234, 255, 0.15) 0%, transparent 50%);
+      background-size: 200% 200%;
+      animation: stars 3s ease-in-out infinite;
     }
     
-    /* Top banner */
+    @keyframes stars {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+    
+    /* Top banner with glow */
     .top-banner {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
-      padding: 20px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+      padding: 25px 20px;
       z-index: 10;
       text-align: center;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.3);
     }
     
     .logo-text {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 14px;
+      font-family: 'Audiowide', cursive;
+      font-size: 16px;
       color: #ffd700;
-      letter-spacing: 3px;
-      text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+      letter-spacing: 5px;
+      text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.8),
+        0 0 20px rgba(255, 215, 0, 0.6),
+        0 0 30px rgba(255, 215, 0, 0.4);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from {
+        text-shadow: 
+          0 0 10px rgba(255, 215, 0, 0.8),
+          0 0 20px rgba(255, 215, 0, 0.6),
+          0 0 30px rgba(255, 215, 0, 0.4);
+      }
+      to {
+        text-shadow: 
+          0 0 20px rgba(255, 215, 0, 1),
+          0 0 30px rgba(255, 215, 0, 0.8),
+          0 0 40px rgba(255, 215, 0, 0.6);
+      }
     }
     
     /* Bottom controls */
@@ -64,13 +96,24 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
       z-index: 10;
     }
     
     .nav-buttons {
       display: flex;
-      gap: 16px;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .day-label {
+      font-family: 'Russo One', sans-serif;
+      color: #ffffff;
+      font-size: 18px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      min-width: 100px;
+      text-align: center;
     }
     
     .btn {
@@ -84,34 +127,50 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-family: 'Poppins', sans-serif;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: 'Rajdhani', sans-serif;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
+      position: relative;
     }
     
     .btn-prev, .btn-next {
-      background: rgba(255, 255, 255, 0.15);
+      background: linear-gradient(135deg, rgba(0, 234, 255, 0.2), rgba(138, 43, 226, 0.2));
       color: #ffffff;
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      width: 60px;
-      height: 60px;
+      backdrop-filter: blur(15px);
+      border: 2px solid rgba(0, 234, 255, 0.5);
+      width: 65px;
+      height: 65px;
       padding: 0;
       justify-content: center;
+      font-size: 22px;
+      box-shadow: 
+        0 0 20px rgba(0, 234, 255, 0.3),
+        inset 0 0 20px rgba(0, 234, 255, 0.1);
     }
     
     .btn-prev:hover, .btn-next:hover {
-      background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.4);
-      transform: scale(1.1);
-      box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+      background: linear-gradient(135deg, rgba(0, 234, 255, 0.4), rgba(138, 43, 226, 0.4));
+      border-color: rgba(0, 234, 255, 0.8);
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 
+        0 10px 40px rgba(0, 234, 255, 0.5),
+        inset 0 0 30px rgba(0, 234, 255, 0.2);
+    }
+    
+    .btn-prev:active, .btn-next:active {
+      transform: scale(0.95);
     }
     
     .btn-register {
-      background: linear-gradient(135deg, #ffcc00 0%, #ff8f00 100%);
+      background: linear-gradient(135deg, #ffcc00 0%, #ff6b00 50%, #ff0080 100%);
       color: #000;
-      box-shadow: 0 10px 30px rgba(255, 204, 0, 0.4);
+      font-family: 'Russo One', sans-serif;
+      font-size: 18px;
+      padding: 18px 40px;
+      box-shadow: 
+        0 10px 40px rgba(255, 204, 0, 0.5),
+        0 0 30px rgba(255, 107, 0, 0.3);
       position: relative;
       overflow: hidden;
     }
@@ -123,8 +182,8 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: left 0.5s;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+      transition: left 0.6s;
     }
     
     .btn-register:hover:before {
@@ -132,29 +191,60 @@
     }
     
     .btn-register:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(255, 204, 0, 0.6);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 
+        0 15px 50px rgba(255, 204, 0, 0.7),
+        0 0 40px rgba(255, 107, 0, 0.5);
     }
     
     /* Day indicator */
     .day-indicator {
       display: flex;
-      gap: 10px;
-      margin-bottom: 8px;
+      gap: 12px;
+      margin-bottom: 10px;
     }
     
     .dot {
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transition: all 0.3s;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.4s;
+      position: relative;
     }
     
     .dot.active {
       background: #ffcc00;
-      box-shadow: 0 0 20px rgba(255, 204, 0, 0.8);
-      transform: scale(1.3);
+      border-color: #ffcc00;
+      box-shadow: 
+        0 0 20px rgba(255, 204, 0, 0.9),
+        0 0 40px rgba(255, 204, 0, 0.5);
+      transform: scale(1.4);
+    }
+    
+    .dot.active:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 204, 0, 0.4);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+      }
     }
     
     /* Loading overlay */
@@ -164,7 +254,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #0a0a0a;
+      background: linear-gradient(135deg, #000000 0%, #1a0a2e 100%);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -179,12 +269,14 @@
     }
     
     .spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid rgba(255, 204, 0, 0.2);
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(255, 204, 0, 0.2);
       border-top-color: #ffcc00;
+      border-right-color: #00eaff;
       border-radius: 50%;
       animation: spin 1s linear infinite;
+      box-shadow: 0 0 30px rgba(255, 204, 0, 0.5);
     }
     
     @keyframes spin {
@@ -192,10 +284,18 @@
     }
     
     .loading-text {
-      margin-top: 20px;
+      margin-top: 25px;
       color: #ffffff;
-      font-size: 16px;
-      letter-spacing: 2px;
+      font-size: 18px;
+      letter-spacing: 4px;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      animation: fadeInOut 2s ease-in-out infinite;
+    }
+    
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
     }
   </style>
 </head>
@@ -206,7 +306,7 @@
 <!-- Loading screen -->
 <div class="loading" id="loading">
   <div class="spinner"></div>
-  <div class="loading-text">INITIALIZING AR...</div>
+  <div class="loading-text">Initializing AR Experience...</div>
 </div>
 
 <!-- Top banner -->
@@ -224,14 +324,15 @@
     <div class="dot"></div>
   </div>
   <div class="nav-buttons">
-    <button class="btn btn-prev" onclick="prevDay()" aria-label="Previous day">◀</button>
-    <button class="btn btn-next" onclick="nextDay()" aria-label="Next day">▶</button>
+    <button class="btn btn-prev" onclick="prevDay()" aria-label="Previous day">◄</button>
+    <div class="day-label" id="dayLabel">DAY 1/5</div>
+    <button class="btn btn-next" onclick="nextDay()" aria-label="Next day">►</button>
   </div>
   <a class="btn btn-register"
      href="https://forms.gle/txntsUbPfT5LPbjJ9"
      target="_blank"
      rel="noopener noreferrer">
-    🎯 Register Now
+    🎯 REGISTER NOW
   </a>
 </div>
 
@@ -241,164 +342,301 @@
   vr-mode-ui="enabled: false"
   renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true;">
   
-  <!-- Ambient lighting for better visibility -->
-  <a-entity light="type: ambient; color: #888; intensity: 0.5"></a-entity>
-  <a-entity light="type: directional; color: #fff; intensity: 0.8" position="-1 2 1"></a-entity>
+  <!-- Enhanced lighting setup -->
+  <a-entity light="type: ambient; color: #666; intensity: 0.6"></a-entity>
+  <a-entity light="type: directional; color: #fff; intensity: 0.8" position="-2 3 1"></a-entity>
+  <a-entity light="type: point; color: #ffd700; intensity: 0.5" position="0 2 -5"></a-entity>
+  <a-entity light="type: point; color: #00eaff; intensity: 0.5" position="0 -1 -6"></a-entity>
   
-  <!-- Background plane with gradient -->
+  <!-- Animated floating particles -->
+  <a-entity id="particles">
+    <!-- Golden particles -->
+    <a-sphere position="-4 3.5 -8" radius="0.08" color="#ffd700" opacity="0.7"
+              animation="property: position; to: -4 1.5 -8; dir: alternate; dur: 4000; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="4 1.8 -8" radius="0.06" color="#ffd700" opacity="0.6"
+              animation="property: position; to: 4 3.2 -8; dir: alternate; dur: 3500; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="-3.5 2.2 -7.5" radius="0.05" color="#ffcc00" opacity="0.8"
+              animation="property: position; to: -3.5 3.8 -7.5; dir: alternate; dur: 4500; loop: true; easing: easeInOutQuad"></a-sphere>
+    
+    <!-- Cyan particles -->
+    <a-sphere position="3.5 3.8 -7.8" radius="0.07" color="#00eaff" opacity="0.7"
+              animation="property: position; to: 3.5 1.2 -7.8; dir: alternate; dur: 3800; loop: true; easing: easeInOutQuad"></a-sphere>
+    <a-sphere position="-4.2 1.5 -7.2" radius="0.06" color="#00d4ff" opacity="0.6"
+              animation="property: position; to: -4.2 3.5 -7.2; dir: alternate; dur: 4200; loop: true; easing: easeInOutQuad"></a-sphere>
+  </a-entity>
+  
+  <!-- Background gradient plane -->
   <a-plane 
-    position="0 0.5 -8" 
+    position="0 0.8 -8.5" 
     rotation="0 0 0" 
-    width="12" 
-    height="8" 
-    color="#0a0a0a" 
-    opacity="0.3">
+    width="14" 
+    height="9" 
+    color="#0a0a1a" 
+    opacity="0.4"
+    shader="flat">
   </a-plane>
   
-  <!-- MAIN TITLE with glow effect -->
+  <!-- Decorative corner frames -->
+  <a-entity id="corners">
+    <!-- Top left -->
+    <a-box position="-5 3.5 -7.8" width="0.8" height="0.05" depth="0.05" color="#ffd700" opacity="0.8"></a-box>
+    <a-box position="-5.35 3.1 -7.8" width="0.05" height="0.8" depth="0.05" color="#ffd700" opacity="0.8"></a-box>
+    
+    <!-- Top right -->
+    <a-box position="5 3.5 -7.8" width="0.8" height="0.05" depth="0.05" color="#00eaff" opacity="0.8"></a-box>
+    <a-box position="5.35 3.1 -7.8" width="0.05" height="0.8" depth="0.05" color="#00eaff" opacity="0.8"></a-box>
+    
+    <!-- Bottom left -->
+    <a-box position="-5 -1.8 -7.8" width="0.8" height="0.05" depth="0.05" color="#00eaff" opacity="0.8"></a-box>
+    <a-box position="-5.35 -1.4 -7.8" width="0.05" height="0.8" depth="0.05" color="#00eaff" opacity="0.8"></a-box>
+    
+    <!-- Bottom right -->
+    <a-box position="5 -1.8 -7.8" width="0.8" height="0.05" depth="0.05" color="#ffd700" opacity="0.8"></a-box>
+    <a-box position="5.35 -1.4 -7.8" width="0.05" height="0.8" depth="0.05" color="#ffd700" opacity="0.8"></a-box>
+  </a-entity>
+  
+  <!-- MAIN TITLE with glowing effect -->
   <a-text
     value="IMPULSE"
-    position="0 2.8 -7"
+    position="0 3.0 -7"
     align="center"
     color="#ffffff"
-    scale="3.5 3.5 3.5"
-    letter-spacing="8"
+    scale="4.2 4.2 4.2"
+    letter-spacing="10"
     font="roboto"
-    shader="flat">
+    shader="flat"
+    opacity="1">
   </a-text>
   
   <a-text
     value="2K26"
-    position="0 2.2 -7"
+    position="0 2.3 -7"
     align="center"
     color="#ffd700"
-    scale="2.8 2.8 2.8"
-    letter-spacing="12"
+    scale="3.2 3.2 3.2"
+    letter-spacing="18"
     font="roboto"
-    shader="flat">
+    shader="flat"
+    opacity="1">
   </a-text>
   
-  <!-- Decorative line -->
+  <!-- Animated decorative rings around title -->
+  <a-ring
+    position="0 2.65 -7.2"
+    radius-inner="2.5"
+    radius-outer="2.55"
+    color="#ffd700"
+    opacity="0.4"
+    animation="property: rotation; to: 0 0 360; loop: true; dur: 20000; easing: linear">
+  </a-ring>
+  
+  <a-ring
+    position="0 2.65 -7.2"
+    radius-inner="2.8"
+    radius-outer="2.85"
+    color="#00eaff"
+    opacity="0.4"
+    animation="property: rotation; to: 0 0 -360; loop: true; dur: 25000; easing: linear">
+  </a-ring>
+  
+  <!-- Top decorative line with gradient effect -->
   <a-plane
-    position="0 1.9 -6.9"
-    width="4"
-    height="0.02"
-    color="#00eaff">
+    position="0 2.0 -6.95"
+    width="6"
+    height="0.03"
+    color="#00eaff"
+    opacity="0.8">
   </a-plane>
   
-  <!-- DATE with styling -->
+  <a-plane
+    position="0 2.0 -6.95"
+    width="5.5"
+    height="0.015"
+    color="#ffffff"
+    opacity="0.6">
+  </a-plane>
+  
+  <!-- DATE with enhanced styling -->
   <a-text
-    value="10 — 14 FEBRUARY"
-    position="0 1.6 -7"
+    value="10th — 14th FEBRUARY, 2026"
+    position="0 1.65 -7"
     align="center"
     color="#00eaff"
-    scale="1.2 1.2 1.2"
-    letter-spacing="4">
+    scale="1.35 1.35 1.35"
+    letter-spacing="5">
   </a-text>
   
-  <!-- TAGLINE -->
+  <!-- TAGLINE with dividers -->
   <a-text
-    value="SPORTS • CULTURE • CELEBRATION"
+    value="│ SPORTS │ CULTURE │ CELEBRATION │"
     position="0 1.3 -7"
     align="center"
-    color="#cccccc"
-    scale="0.9 0.9 0.9"
+    color="#dddddd"
+    scale="1.0 1.0 1.0"
     letter-spacing="3">
   </a-text>
   
-  <!-- DAY CONTENT with better spacing -->
+  <!-- Middle separator -->
+  <a-plane
+    position="0 1.05 -6.95"
+    width="7"
+    height="0.02"
+    color="#ffd700"
+    opacity="0.5">
+  </a-plane>
+  
+  <!-- DAY CONTENT with beautiful formatting -->
   <a-text
     id="dayText"
     position="0 0.3 -7"
     align="center"
     color="#ffffff"
-    scale="1.1 1.1 1.1"
-    line-height="60"
-    letter-spacing="2"
-    wrap-count="35">
+    scale="1.2 1.2 1.2"
+    line-height="55"
+    letter-spacing="2.5"
+    wrap-count="40">
   </a-text>
+  
+  <!-- Animated accent cubes -->
+  <a-box 
+    position="-4.5 0.3 -7.5" 
+    width="0.15" 
+    height="0.15" 
+    depth="0.15" 
+    color="#ffd700" 
+    opacity="0.7"
+    animation="property: rotation; to: 360 360 360; loop: true; dur: 8000; easing: linear">
+  </a-box>
+  
+  <a-box 
+    position="4.5 0.3 -7.5" 
+    width="0.15" 
+    height="0.15" 
+    depth="0.15" 
+    color="#00eaff" 
+    opacity="0.7"
+    animation="property: rotation; to: -360 -360 -360; loop: true; dur: 8000; easing: linear">
+  </a-box>
   
   <!-- Bottom decorative line -->
   <a-plane
-    position="0 -0.95 -6.9"
-    width="5"
-    height="0.02"
-    color="#ffcc00">
+    position="0 -0.85 -6.95"
+    width="7.5"
+    height="0.03"
+    color="#ff6b6b"
+    opacity="0.7">
   </a-plane>
   
-  <!-- FOOTER -->
+  <!-- FOOTER with urgency indicator -->
   <a-text
-    value="LAST DATE TO REGISTER"
-    position="0 -1.2 -7"
+    value="⏰ LAST DATE TO REGISTER ⏰"
+    position="0 -1.15 -7"
     align="center"
     color="#ff6b6b"
-    scale="0.95 0.95 0.95"
-    letter-spacing="3">
+    scale="1.1 1.1 1.1"
+    letter-spacing="3"
+    animation="property: opacity; from: 0.6; to: 1; dir: alternate; dur: 1000; loop: true; easing: easeInOutQuad">
   </a-text>
   
   <a-text
-    value="6 FEBRUARY 2026"
+    value="6th FEBRUARY, 2026"
     position="0 -1.5 -7"
     align="center"
     color="#00eaff"
-    scale="1.1 1.1 1.1"
-    letter-spacing="4">
+    scale="1.35 1.35 1.35"
+    letter-spacing="5">
   </a-text>
   
-  <!-- Rotating accent shapes for visual interest -->
-  <a-ring
-    position="-3 2.5 -7.5"
-    radius-inner="0.15"
-    radius-outer="0.2"
+  <!-- Rotating accent shapes with trails -->
+  <a-torus
+    position="-3.8 2.8 -7.5"
+    radius="0.2"
+    radius-tubular="0.03"
     color="#ffcc00"
-    opacity="0.6"
-    animation="property: rotation; to: 0 0 360; loop: true; dur: 10000; easing: linear">
-  </a-ring>
+    opacity="0.7"
+    animation="property: rotation; to: 360 360 0; loop: true; dur: 12000; easing: linear">
+  </a-torus>
   
-  <a-ring
-    position="3 2.5 -7.5"
-    radius-inner="0.15"
-    radius-outer="0.2"
+  <a-torus
+    position="3.8 2.8 -7.5"
+    radius="0.2"
+    radius-tubular="0.03"
     color="#00eaff"
-    opacity="0.6"
-    animation="property: rotation; to: 0 0 -360; loop: true; dur: 10000; easing: linear">
-  </a-ring>
+    opacity="0.7"
+    animation="property: rotation; to: -360 -360 0; loop: true; dur: 12000; easing: linear">
+  </a-torus>
+  
+  <a-torus
+    position="-3.8 -1.0 -7.5"
+    radius="0.18"
+    radius-tubular="0.03"
+    color="#00eaff"
+    opacity="0.7"
+    animation="property: rotation; to: 0 360 360; loop: true; dur: 10000; easing: linear">
+  </a-torus>
+  
+  <a-torus
+    position="3.8 -1.0 -7.5"
+    radius="0.18"
+    radius-tubular="0.03"
+    color="#ffcc00"
+    opacity="0.7"
+    animation="property: rotation; to: 0 -360 -360; loop: true; dur: 10000; easing: linear">
+  </a-torus>
+  
+  <!-- Orbiting stars -->
+  <a-entity id="orbit1" position="0 2.65 -7"
+            animation="property: rotation; to: 0 0 360; loop: true; dur: 15000; easing: linear">
+    <a-octahedron position="3 0 0" radius="0.1" color="#ffffff" opacity="0.8"></a-octahedron>
+  </a-entity>
+  
+  <a-entity id="orbit2" position="0 2.65 -7"
+            animation="property: rotation; to: 0 0 -360; loop: true; dur: 18000; easing: linear">
+    <a-octahedron position="3.3 0 0" radius="0.08" color="#ffd700" opacity="0.7"></a-octahedron>
+  </a-entity>
   
 </a-scene>
 
 <script>
   const days = [
     {
-      title: "DAY 1 — MONDAY, 10 FEB",
-      content: "CRICKET • VOLLEYBALL\nKABADDI • CHESS\nCARROM • LUDO • LAGORI"
+      title: "DAY 1 — MONDAY",
+      date: "10th February, 2026",
+      content: "━━━━━━━━━━━━━━━━━\n\n🏏 CRICKET Tournament\n\n🏐 VOLLEYBALL Championship\n\n🤼 KABADDI Battle\n\n♟️ CHESS Competition\n\n🎯 CARROM • LUDO • LAGORI\n\n━━━━━━━━━━━━━━━━━"
     },
     {
-      title: "DAY 2 — TUESDAY, 11 FEB",
-      content: "SPORTS CONTINUATION\n⚡ SEMI-FINAL MATCHES ⚡\nINTENSE COMPETITION"
+      title: "DAY 2 — TUESDAY",
+      date: "11th February, 2026",
+      content: "━━━━━━━━━━━━━━━━━\n\n⚡ SPORTS CONTINUATION ⚡\n\n🔥 SEMI-FINAL MATCHES 🔥\n\nIntense Competition Begins\n\nChampions Rise to the Challenge\n\n━━━━━━━━━━━━━━━━━"
     },
     {
-      title: "DAY 3 — WEDNESDAY, 12 FEB",
-      content: "🏆 FINAL MATCHES 🏆\nCHAMPIONS EMERGE\nGLORY AWAITS"
+      title: "DAY 3 — WEDNESDAY",
+      date: "12th February, 2026",
+      content: "━━━━━━━━━━━━━━━━━\n\n🏆 FINAL MATCHES 🏆\n\nThe Ultimate Showdown\n\nWitness Champions Emerge\n\nGlory • Victory • Honor\n\n━━━━━━━━━━━━━━━━━"
     },
     {
-      title: "DAY 4 — THURSDAY, 13 FEB",
-      content: "BOLLYWOOD DAY\nTRADITIONAL CELEBRATIONS\nFOOD CARNIVAL • TREASURE HUNT"
+      title: "DAY 4 — THURSDAY",
+      date: "13th February, 2026",
+      content: "━━━━━━━━━━━━━━━━━\n\n💃 BOLLYWOOD NIGHT 💃\n\n🎭 TRADITIONAL CELEBRATIONS 🎭\n\n🍔 FOOD CARNIVAL 🍕\n\n🗺️ TREASURE HUNT Adventure\n\n━━━━━━━━━━━━━━━━━"
     },
     {
-      title: "DAY 5 — FRIDAY, 14 FEB",
-      content: "🎭 GRAND FINALE 🎭\nDANCE • SINGING • DRAMA\nFASHION SHOW & AWARDS"
+      title: "DAY 5 — FRIDAY",
+      date: "14th February, 2026",
+      content: "━━━━━━━━━━━━━━━━━\n\n✨ GRAND FINALE ✨\n\n💃 DANCE Performance\n\n🎤 SINGING Competition\n\n🎭 DRAMA Showcase\n\n👗 FASHION SHOW & AWARDS 🏆\n\n━━━━━━━━━━━━━━━━━"
     }
   ];
   
   let currentDay = 0;
   const dayText = document.getElementById("dayText");
+  const dayLabel = document.getElementById("dayLabel");
   const dayIndicator = document.getElementById("dayIndicator");
   
   function updateDay() {
     const day = days[currentDay];
-    dayText.setAttribute("value", `${day.title}\n\n${day.content}`);
+    dayText.setAttribute("value", `${day.title}\n${day.date}\n${day.content}`);
+    dayLabel.textContent = `DAY ${currentDay + 1}/5`;
     
-    // Update dots
+    // Update indicator dots
     const dots = dayIndicator.querySelectorAll('.dot');
     dots.forEach((dot, index) => {
       dot.classList.toggle('active', index === currentDay);
@@ -418,11 +656,18 @@
   }
   
   function playTransition() {
-    // Add a subtle scale animation on transition
-    dayText.setAttribute('animation', 'property: scale; from: 0.9 0.9 0.9; to: 1.1 1.1 1.1; dur: 300; easing: easeOutQuad');
+    // Smooth scale animation
+    dayText.setAttribute('animation', 'property: scale; from: 0.8 0.8 0.8; to: 1.2 1.2 1.2; dur: 400; easing: easeOutElastic');
     setTimeout(() => {
       dayText.removeAttribute('animation');
-    }, 300);
+    }, 400);
+    
+    // Rotate the decorative elements
+    const corners = document.querySelector('#corners');
+    if (corners) {
+      const currentRotation = corners.getAttribute('rotation') || {x: 0, y: 0, z: 0};
+      corners.setAttribute('animation', `property: rotation; to: 0 0 ${parseFloat(currentRotation.z) + 360}; dur: 600; easing: easeInOutQuad`);
+    }
   }
   
   // Initialize
@@ -440,6 +685,24 @@
     if (e.key === 'ArrowLeft') prevDay();
     if (e.key === 'ArrowRight') nextDay();
   });
+  
+  // Touch swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  
+  document.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+  
+  function handleSwipe() {
+    if (touchEndX < touchStartX - 50) nextDay();
+    if (touchEndX > touchStartX + 50) prevDay();
+  }
 </script>
 </body>
 </html>
